@@ -1,3 +1,4 @@
+import 'package:application_tacteo/pages/new_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 //import 'package:google_fonts/google_fonts.dart';
@@ -62,7 +63,10 @@ class HomePage extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: ElevatedButton(
                           onPressed: () {
-                            // Action when the second button is pressed
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => MultiStepForm()),
+                            );
                           }, 
                           style: buttonStyle,
                           child: const Text('Nouveau'),
