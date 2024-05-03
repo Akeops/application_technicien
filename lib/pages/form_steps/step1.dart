@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';  // Import the intl library for date formatting.
 
 class StepDateOfBirth extends StatelessWidget {
   final GlobalKey<FormState> formKey;
@@ -6,11 +7,14 @@ class StepDateOfBirth extends StatelessWidget {
   final VoidCallback onNext;
   final VoidCallback onPrevious;
 
-  const StepDateOfBirth(
-      {required this.formKey,
-      required this.dateController,
-      required this.onNext,
-      required this.onPrevious});
+  StepDateOfBirth({
+    required this.formKey,
+    required TextEditingController dateController,
+    required this.onNext,
+    required this.onPrevious,
+  }) : dateController = dateController..text = DateFormat('dd-MM-yyyy').format(DateTime.now()) {
+    // Initialize the text controller with today's date in 'yyyy-MM-dd' format.
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +29,7 @@ class StepDateOfBirth extends StatelessWidget {
               TextFormField(
                 controller: dateController,
                 decoration: const InputDecoration(
-                  labelText: 'Date de naissance',
+                  labelText: "Date d'intervention",
                   suffixIcon: Icon(Icons.calendar_today),
                 ),
                 readOnly: true,
@@ -37,26 +41,21 @@ class StepDateOfBirth extends StatelessWidget {
                     lastDate: DateTime.now(),
                   );
                   if (pickedDate != null) {
-                    dateController.text =
-                        "${pickedDate.toLocal()}".split(' ')[0];
+                    dateController.text = DateFormat('dd-MM-yyyy').format(pickedDate);
                   }
                 },
-                validator: (value) => value == null || value.isEmpty
-                    ? 'Ce champ ne peut pas être vide'
-                    : null,
+                validator: (value) {
+                  return value == null || value.isEmpty ? 'Ce champ ne peut pas être vide' : null;
+                },
               ),
               const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: onNext,
-                child: const Text('Suivant'),
-              ),
-              ElevatedButton(
-                onPressed: onPrevious,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.grey,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                  onPressed: onNext,
+                  child: const Text('Suivant'),
                 ),
-                child: const Text('Précédent'),
-              ),
+              )
             ],
           ),
         ),

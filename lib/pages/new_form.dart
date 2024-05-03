@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'form_steps/step1.dart';
 import 'form_steps/step2.dart';
 import 'form_steps/step3.dart';
 
 
+
 class MultiStepForm extends StatefulWidget {
+  const MultiStepForm({super.key});
+
   @override
-  _MultiStepFormState createState() => _MultiStepFormState();
+  MultiStepFormState createState() => MultiStepFormState();
 }
 
-class _MultiStepFormState extends State<MultiStepForm> {
+class MultiStepFormState extends State<MultiStepForm> {
   final _pageController = PageController();
   final _formKeys = [GlobalKey<FormState>(), GlobalKey<FormState>(), GlobalKey<FormState>()];
   final _dateController = TextEditingController();
@@ -24,20 +28,53 @@ class _MultiStepFormState extends State<MultiStepForm> {
     super.dispose();
   }
 
+  @override
+void initState() {
+  super.initState();
+  _loadSavedStep();
+}
+
+void _loadSavedStep() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  int savedStep = prefs.getInt('currentStep') ?? 0;
+  print("Loaded saved step: $savedStep"); // Log pour le débogage
+  if (savedStep != 0) {
+    _pageController.jumpToPage(savedStep);
+  }
+}
+
   void _nextPage() {
-    _pageController.nextPage(duration: Duration(milliseconds: 300), curve: Curves.easeIn);
+    _pageController.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.easeIn).then((_) {
+        _saveCurrentStep();
+    });
   }
 
   void _previousPage() {
-    _pageController.previousPage(duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
+    _pageController.previousPage(duration: const Duration(milliseconds: 300), curve: Curves.easeIn).then((_) {
+        _saveCurrentStep();
+    });
   }
+
+  void _saveCurrentStep() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  int currentPage = _pageController.page!.toInt();
+  await prefs.setInt('currentStep', currentPage);
+  print("Current step saved: $currentPage"); // Ajoutez ce log pour le débogage
+}
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Formulaire Multi-Étapes"),
+      title: Text("Formulaire Multi-Étapes"),
+      leading: IconButton(
+        icon: Icon(Icons.arrow_back),
+        onPressed: () {
+          _saveCurrentStep();  // Assurez-vous que ceci sauvegarde l'état correctement
+          Navigator.of(context).pop();
+        },
       ),
+    ),
       body: PageView(
         controller: _pageController,
         physics: NeverScrollableScrollPhysics(),

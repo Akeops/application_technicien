@@ -1,16 +1,20 @@
 import 'package:application_tacteo/pages/new_form.dart';
+import 'package:application_tacteo/pages/form_state_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-//import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 // ignore: constant_identifier_names
 
 class HomePage extends StatelessWidget {
   final Color backgroundColor;
+  
 
   HomePage({this.backgroundColor = Colors.amber});
 
   @override
   Widget build(BuildContext context) {
+    final formState = Provider.of<myFormState>(context, listen: false);
     // Bloquer l'orientation de l'appareil en mode portrait
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
@@ -47,13 +51,14 @@ class HomePage extends StatelessWidget {
                   const SizedBox(height: 20), // Adds spacing between the text and the first button
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      
+                    children: <Widget>[ 
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: ElevatedButton(
                           onPressed: () {
-                            // Action when the first button is pressed
+                              Navigator.of(context).push(
+                                MaterialPageRoute(builder: (context) => MultiStepForm())
+                              );
                           }, 
                           style: buttonStyle,
                           child: const Text('Reprendre'),
@@ -63,9 +68,10 @@ class HomePage extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: ElevatedButton(
                           onPressed: () {
+                            _resetForm();
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => MultiStepForm()),
+                              MaterialPageRoute(builder: (context) => const MultiStepForm()),
                             );
                           }, 
                           style: buttonStyle,
@@ -82,4 +88,14 @@ class HomePage extends StatelessWidget {
       }
     );
   }
+
+  void _resetForm() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('currentStep', 0); // Réinitialise l'étape enregistrée
+    print("Form reset done"); // Log pour le débogage
+    // Plus de logique pour réinitialiser d'autres données si nécessaire
+  }
+
 }
+
+
