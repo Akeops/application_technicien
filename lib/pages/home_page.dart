@@ -14,7 +14,6 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final formState = Provider.of<myFormState>(context, listen: false);
     // Bloquer l'orientation de l'appareil en mode portrait
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
@@ -68,10 +67,10 @@ class HomePage extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: ElevatedButton(
                           onPressed: () {
-                            _resetForm();
+                            Provider.of<myFormState>(context, listen: false).resetForm();
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => const MultiStepForm()),
+                              MaterialPageRoute(builder: (context) => MultiStepForm(key: UniqueKey())),
                             );
                           }, 
                           style: buttonStyle,
@@ -88,14 +87,8 @@ class HomePage extends StatelessWidget {
       }
     );
   }
-
-  void _resetForm() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setInt('currentStep', 0); // Réinitialise l'étape enregistrée
-    print("Form reset done"); // Log pour le débogage
-    // Plus de logique pour réinitialiser d'autres données si nécessaire
-  }
-
 }
+
+
 
 

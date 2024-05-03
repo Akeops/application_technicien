@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class myFormState with ChangeNotifier {
@@ -8,10 +9,14 @@ class myFormState with ChangeNotifier {
   Map<String, dynamic> _formData = {};
 
   int get currentStep => _currentStep;
+  TextEditingController dateController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController ageController = TextEditingController();
   Map<String, dynamic> get formData => _formData;
 
-  MyFormState() {
+  myFormState() {
     _loadFromPrefs();
+    dateController.text = DateFormat('dd-MM-yyyy').format(DateTime.now());
   }
 
   Future<void> _loadFromPrefs() async {
@@ -41,5 +46,19 @@ class myFormState with ChangeNotifier {
     } catch (e) {
       // Gestion des erreurs
     }
+  }
+
+  Future<void> resetForm() async {
+    await _preferences?.clear(); // Clear all saved data
+
+    // Clear all text controllers
+    //dateController.clear();
+    emailController.clear();
+    ageController.clear();
+
+    // Clear any internal data maps
+    _formData = {};
+
+    notifyListeners(); // Notify listeners to rebuild UI
   }
 }
