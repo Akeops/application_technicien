@@ -37,7 +37,10 @@ void initState() {
 void _loadSavedStep() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   int savedStep = prefs.getInt('currentStep') ?? 0;
-  print("Loaded saved step: $savedStep"); // Log pour le débogage
+  _dateController.text = prefs.getString('dateOfBirth') ?? '';
+  _emailController.text = prefs.getString('email') ?? '';
+  _ageController.text = prefs.getString('age') ?? '';
+  
   if (savedStep != 0) {
     _pageController.jumpToPage(savedStep);
   }
@@ -56,11 +59,13 @@ void _loadSavedStep() async {
   }
 
   void _saveCurrentStep() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  int currentPage = _pageController.page!.toInt();
-  await prefs.setInt('currentStep', currentPage);
-  print("Current step saved: $currentPage"); // Ajoutez ce log pour le débogage
-}
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int currentPage = _pageController.page!.toInt();
+    await prefs.setInt('currentStep', currentPage);
+    await prefs.setString('dateOfBirth', _dateController.text);
+    await prefs.setString('email', _emailController.text);
+    await prefs.setString('age', _ageController.text);
+  }
 
   @override
   Widget build(BuildContext context) {
