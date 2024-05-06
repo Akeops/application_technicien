@@ -20,13 +20,13 @@ class StepIntervention extends StatefulWidget {
 
 class _StepInterventionState extends State<StepIntervention> {
   final Map<String, bool> _choices = {
-    "Option 1": false,
-    "Option 2": false,
-    "Option 3": false,
-    "Option 4": false,
-    "Option 5": false,
-    "Option 6": false,
-    "Option 7": false,
+    "Maintenance": false,
+    "Installation": false,
+    "Formation": false,
+    "Renouvellement": false,
+    "Reprise matériel(s)": false,
+    "Livraison": false,
+    "Pré-visite": false,
   };
 
   @override
@@ -59,6 +59,10 @@ class _StepInterventionState extends State<StepIntervention> {
     });
   }
 
+  bool _validateSelection() {
+    return _choices.values.any((value) => value);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -80,7 +84,15 @@ class _StepInterventionState extends State<StepIntervention> {
               }).toList(),
               const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: widget.onNext,
+                onPressed: () {
+                  if (_validateSelection()) {
+                    widget.onNext();
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Please select at least one option before proceeding.'))
+                    );
+                  }
+                },
                 child: const Text('Suivant'),
               ),
               ElevatedButton(
