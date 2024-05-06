@@ -22,10 +22,10 @@ class HomePage extends StatelessWidget {
     // Style commun pour les boutons
     final buttonStyle = ElevatedButton.styleFrom(
       foregroundColor: Colors.black, backgroundColor: Colors.white,
-      minimumSize: const Size(150, 60), // Définit une largeur minimale et une hauteur pour les boutons
+      minimumSize: const Size(150, 45), // Définit une largeur minimale et une hauteur pour les boutons
       padding: const EdgeInsets.symmetric(horizontal: 16), // Padding horizontal pour le contenu du bouton
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(20),
         side: const BorderSide(color: Colors.white, width: 2.0),
       ),
     );
@@ -34,7 +34,7 @@ class HomePage extends StatelessWidget {
       builder: (context, constraints) {
         return Scaffold(
           appBar: AppBar(title: const Text('APPLICATION TECHNICIEN')),
-          body: Center(
+          body: Center( 
             child: Container(
               decoration: const BoxDecoration(
                 color: Colors.black,

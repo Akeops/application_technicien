@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';  // Import the intl library for date formatting.
+import 'package:intl/intl.dart';  // Import the intl library for date and time formatting.
 
 class StepDateOfBirth extends StatelessWidget {
   final GlobalKey<FormState> formKey;
   final TextEditingController dateController;
+  final TextEditingController timeController; // Contrôleur pour l'heure
   final VoidCallback onNext;
   final VoidCallback onPrevious;
 
-  StepDateOfBirth({
+  StepDateOfBirth({super.key, 
     required this.formKey,
     required TextEditingController dateController,
     required this.onNext,
     required this.onPrevious,
-  }) : dateController = dateController..text = DateFormat('dd-MM-yyyy').format(DateTime.now()) {
-    // Initialize the text controller with today's date in 'yyyy-MM-dd' format.
+  }) : dateController = dateController..text = DateFormat('dd-MM-yyyy').format(DateTime.now()),
+       timeController = TextEditingController()..text = DateFormat('HH:mm').format(DateTime.now()) {
+    // Initialize the text controllers with today's date and current time.
   }
 
   @override
@@ -49,13 +51,38 @@ class StepDateOfBirth extends StatelessWidget {
                 },
               ),
               const SizedBox(height: 20),
+              TextFormField(
+                controller: timeController,
+                decoration: const InputDecoration(
+                  labelText: "Heure d'intervention",
+                  suffixIcon: Icon(Icons.access_time),
+                ),
+                readOnly: true,
+                onTap: () async {
+                  final TimeOfDay? pickedTime = await showTimePicker(
+                    context: context,
+                    initialTime: TimeOfDay.now(),
+                  );
+                  if (pickedTime != null) {
+                    timeController.text = pickedTime.format(context);
+                  }
+                },
+                validator: (value) {
+                  return value == null || value.isEmpty ? 'Ce champ ne peut pas être vide' : null;
+                },
+              ),
+              const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
-                  onPressed: onNext,
+                  onPressed: () {
+                    if (formKey.currentState!.validate()) {
+                      onNext(); // Only proceed if the form is valid
+                    }
+                  },
                   child: const Text('Suivant'),
                 ),
-              )
+              ),
             ],
           ),
         ),

@@ -17,13 +17,15 @@ class MultiStepFormState extends State<MultiStepForm> {
   final _pageController = PageController();
   final _formKeys = [GlobalKey<FormState>(), GlobalKey<FormState>(), GlobalKey<FormState>()];
   final _dateController = TextEditingController();
-  final _emailController = TextEditingController();
+  final _timeController = TextEditingController();
+  final _interventionController = TextEditingController();
   final _ageController = TextEditingController();
 
   @override
   void dispose() {
     _dateController.dispose();
-    _emailController.dispose();
+    _timeController.dispose();
+    _interventionController.dispose();
     _ageController.dispose();
     super.dispose();
   }
@@ -38,7 +40,7 @@ void _loadSavedStep() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   int savedStep = prefs.getInt('currentStep') ?? 0;
   _dateController.text = prefs.getString('dateOfBirth') ?? '';
-  _emailController.text = prefs.getString('email') ?? '';
+  _interventionController.text = prefs.getString('intervention') ?? '';
   _ageController.text = prefs.getString('age') ?? '';
   
   if (savedStep != 0) {
@@ -63,7 +65,7 @@ void _loadSavedStep() async {
     int currentPage = _pageController.page!.toInt();
     await prefs.setInt('currentStep', currentPage);
     await prefs.setString('dateOfBirth', _dateController.text);
-    await prefs.setString('email', _emailController.text);
+    await prefs.setString('intervention', _interventionController.text);
     await prefs.setString('age', _ageController.text);
   }
 
@@ -71,9 +73,9 @@ void _loadSavedStep() async {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-      title: Text("Formulaire Multi-Étapes"),
+      title: const Text("Formulaire Multi-Étapes"),
       leading: IconButton(
-        icon: Icon(Icons.arrow_back),
+        icon: const Icon(Icons.arrow_back),
         onPressed: () {
           _saveCurrentStep();  // Assurez-vous que ceci sauvegarde l'état correctement
           Navigator.of(context).pop();
@@ -82,11 +84,11 @@ void _loadSavedStep() async {
     ),
       body: PageView(
         controller: _pageController,
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         scrollDirection: Axis.vertical,
         children: <Widget>[
           StepDateOfBirth(formKey: _formKeys[0], dateController: _dateController, onNext: _nextPage, onPrevious: () {  },),
-          StepEmail(formKey: _formKeys[1], emailController: _emailController, onNext: _nextPage, onPrevious: _previousPage),
+          StepIntervention(formKey: _formKeys[1], interventionController: _interventionController, onNext: _nextPage, onPrevious: _previousPage),
           StepAge(formKey: _formKeys[2], ageController: _ageController, onPrevious: _previousPage),
         ],
       ),
