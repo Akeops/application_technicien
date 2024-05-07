@@ -13,70 +13,76 @@ class MultiStepForm extends StatefulWidget {
 }
 
 class MultiStepFormState extends State<MultiStepForm> {
-  final _pageController = PageController();
-  late final List<GlobalKey<FormState>> _formKeys;
-  final int numberOfSteps = 4;  // Total number of form steps
-  final _dateController = TextEditingController();
-  final _timeController = TextEditingController();
-  final _interventionController = TextEditingController();
-  final _firstAgeController = TextEditingController();
-  final _secondAgeController = TextEditingController();
-  final _thirdAgeController = TextEditingController();
-  final _fourthAgeController = TextEditingController();
-  final _fifthAgeController = TextEditingController(); 
-  final _sixAgeController = TextEditingController();
-  final _sevenAgeController = TextEditingController();
-  final _eightAgeController = TextEditingController();
-  final _nineAgeController = TextEditingController();
-  final _interventionDecriptionController = TextEditingController();
+  final PageController _pageController = PageController();
+  late final List<GlobalKey<FormState>> _formKeys = List.generate(4, (index) => GlobalKey<FormState>());
+  
+  final TextEditingController _dateController = TextEditingController();
+  final TextEditingController _timeController = TextEditingController();
+  final TextEditingController _interventionController = TextEditingController();
+  final TextEditingController _codeClientController = TextEditingController();
+  final TextEditingController _designationController = TextEditingController();
+  final TextEditingController _siretController = TextEditingController();
+  final TextEditingController _mailController = TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController(); 
+  final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _additionalAddressController = TextEditingController();
+  final TextEditingController _cityController = TextEditingController();
+  final TextEditingController _postalCodeController = TextEditingController();
+  final TextEditingController _interventionDecriptionController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _formKeys = List<GlobalKey<FormState>>.generate(numberOfSteps, (index) => GlobalKey<FormState>());
     _loadSavedStep();
   }
 
   @override
   void dispose() {
+    _disposeControllers();
+    super.dispose();
+  }
+
+  void _disposeControllers() {
     _dateController.dispose();
     _timeController.dispose();
     _interventionController.dispose();
-    _firstAgeController.dispose();
-    _secondAgeController.dispose();
-    _thirdAgeController.dispose(); 
-    _fourthAgeController.dispose();
-    _fifthAgeController.dispose();
-    _sixAgeController.dispose();
-    _sevenAgeController.dispose();
-    _eightAgeController.dispose();
-    _nineAgeController.dispose();
+    _codeClientController.dispose();
+    _designationController.dispose();
+    _siretController.dispose(); 
+    _mailController.dispose();
+    _phoneNumberController.dispose();
+    _addressController.dispose();
+    _additionalAddressController.dispose();
+    _cityController.dispose();
+    _postalCodeController.dispose();
     _interventionDecriptionController.dispose();
-    super.dispose();
   }
 
   void _loadSavedStep() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int savedStep = prefs.getInt('currentStep') ?? 0;
-    _dateController.text = prefs.getString('dateOfBirth') ?? '';
-    _interventionController.text = prefs.getString('intervention') ?? '';
-    _firstAgeController.text = prefs.getString('firstAge') ?? '';
-    _secondAgeController.text = prefs.getString('secondAge') ?? '';
-    _thirdAgeController.text = prefs.getString('secondAge') ?? '';
-    _fourthAgeController.text = prefs.getString('secondAge') ?? '';
-    _fifthAgeController.text = prefs.getString('secondAge') ?? '';
-    _sixAgeController.text = prefs.getString('secondAge') ?? '';
-    _sevenAgeController.text = prefs.getString('secondAge') ?? '';
-    _eightAgeController.text = prefs.getString('secondAge') ?? '';
-    _nineAgeController.text = prefs.getString('secondAge') ?? '';
-
+    _loadDataFromPrefs(prefs);
     if (savedStep != 0) {
       _pageController.jumpToPage(savedStep);
     }
   }
 
+  void _loadDataFromPrefs(SharedPreferences prefs) {
+    _dateController.text = prefs.getString('dateOfBirth') ?? '';
+    _interventionController.text = prefs.getString('intervention') ?? '';
+    _codeClientController.text = prefs.getString('codeClient') ?? '';
+    _designationController.text = prefs.getString('designation') ?? '';
+    _siretController.text = prefs.getString('siret') ?? '';
+    _mailController.text = prefs.getString('mail') ?? '';
+    _phoneNumberController.text = prefs.getString('phoneNumber') ?? '';
+    _addressController.text = prefs.getString('address') ?? '';
+    _additionalAddressController.text = prefs.getString('additionalAddress') ?? '';
+    _cityController.text = prefs.getString('city') ?? '';
+    _postalCodeController.text = prefs.getString('postalCode') ?? '';
+  }
+
   void _nextPage() {
-    if (_pageController.hasClients && _pageController.page!.toInt() < (_formKeys.length - 1)) {
+    if (_pageController.hasClients && _pageController.page!.toInt() < _formKeys.length - 1) {
       _pageController.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.easeIn).then((_) {
         _saveCurrentStep();
       });
@@ -93,27 +99,31 @@ class MultiStepFormState extends State<MultiStepForm> {
 
   void _saveCurrentStep() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    int currentPage = _pageController.page!.toInt();
+    int currentPage = _pageController.page!.toInt(); 
     await prefs.setInt('currentStep', currentPage);
+    await _saveFormData(prefs);
+  }
+
+  Future<void> _saveFormData(SharedPreferences prefs) async {
     await prefs.setString('dateOfBirth', _dateController.text);
     await prefs.setString('intervention', _interventionController.text);
-    await prefs.setString('firstAge', _firstAgeController.text);
-    await prefs.setString('secondAge', _secondAgeController.text);
-    await prefs.setString('thirdAge', _thirdAgeController.text);
-    await prefs.setString('fourthAge', _fourthAgeController.text);
-    await prefs.setString('fifthAge', _fifthAgeController.text);
-    await prefs.setString('sixAge', _sixAgeController.text);
-    await prefs.setString('sevenAge', _sevenAgeController.text);
-    await prefs.setString('eightAge', _eightAgeController.text);
-    await prefs.setString('nineAge', _nineAgeController.text);
-    await prefs.setString('Description', _interventionDecriptionController.text);
+    await prefs.setString('codeClient', _codeClientController.text);
+    await prefs.setString('designation', _designationController.text);
+    await prefs.setString('siret', _siretController.text);
+    await prefs.setString('mail', _mailController.text);
+    await prefs.setString('phoneNumber', _phoneNumberController.text);
+    await prefs.setString('address', _addressController.text);
+    await prefs.setString('additionalAddress', _additionalAddressController.text);
+    await prefs.setString('city', _cityController.text);
+    await prefs.setString('postalCode', _postalCodeController.text);
+    await prefs.setString('description', _interventionDecriptionController.text);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Formulaire Multi-Étapes"),
+        title: const Text("Multi-Step Form"),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -130,15 +140,16 @@ class MultiStepFormState extends State<MultiStepForm> {
           StepIntervention(formKey: _formKeys[1], interventionController: _interventionController, onNext: _nextPage, onPrevious: _previousPage),
           StepAge(
             formKey: _formKeys[2],
-            firstAgeController: _firstAgeController, 
-            secondAgeController: _secondAgeController,
-            thirdAgeController: _thirdAgeController,   
-            fourthAgeController: _fourthAgeController,
-            fifthAgeController: _fifthAgeController,
-            sixAgeController: _sixAgeController,
-            sevenAgeController: _sevenAgeController,
-            eightAgeController: _eightAgeController,
-            nineAgeController: _nineAgeController,
+            currentStep: 2,
+            codeClientController: _codeClientController, 
+            designationController: _designationController,
+            siretController: _siretController,   
+            mailController: _mailController,
+            phoneNumberController: _phoneNumberController,
+            addressController: _addressController,
+            additionalAddressController: _additionalAddressController,
+            cityController: _cityController,
+            postalCodeController: _postalCodeController,
             onNext: _nextPage,
             onPrevious: _previousPage),
           StepDescriptionIntervention(formKey: _formKeys[3], interventionDecriptionController: _interventionDecriptionController, onNext: _nextPage, onPrevious: _previousPage)

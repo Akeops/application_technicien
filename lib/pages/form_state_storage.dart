@@ -11,16 +11,16 @@ class myFormState with ChangeNotifier {
   // Define controllers
   TextEditingController dateController = TextEditingController(); // First page
   TextEditingController emailController = TextEditingController(); // Second page
-  TextEditingController ageController = TextEditingController(); // Third page
-  TextEditingController firstAgeController = TextEditingController();
-  TextEditingController secondAgeController = TextEditingController();
-  TextEditingController thirdAgeController = TextEditingController();
-  TextEditingController fourthAgeController = TextEditingController();
-  TextEditingController fifthAgeController = TextEditingController();
-  TextEditingController sixAgeController = TextEditingController();
-  TextEditingController sevenAgeController = TextEditingController();
-  TextEditingController eightAgeController = TextEditingController();
-  TextEditingController nineAgeController = TextEditingController();
+  //TextEditingController ageController = TextEditingController(); // Third page
+  TextEditingController codeClientController = TextEditingController();
+  TextEditingController designationController = TextEditingController();
+  TextEditingController siretController = TextEditingController();
+  TextEditingController mailController = TextEditingController();
+  TextEditingController phoneNumberController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
+  TextEditingController additionalAddressController = TextEditingController();
+  TextEditingController cityController = TextEditingController();
+  TextEditingController postalCodeController = TextEditingController();
   // Define other controllers as needed...
 
   int get currentStep => _currentStep;
@@ -39,15 +39,15 @@ class myFormState with ChangeNotifier {
       if (formDataJson != null) {
         _formData = json.decode(formDataJson);
         // Update controllers if their corresponding data exists
-        firstAgeController.text = _formData['firstAge'] ?? '';
-        secondAgeController.text = _formData['secondAge'] ?? '';
-        thirdAgeController.text = _formData['thirdAge'] ?? '';
-        fourthAgeController.text = _formData['fourthAge'] ?? '';
-        fifthAgeController.text = _formData['fifthAge'] ?? '';
-        sixAgeController.text = _formData['sixAge'] ?? '';
-        sevenAgeController.text = _formData['sevenAge'] ?? '';
-        eightAgeController.text = _formData['eightAge'] ?? '';
-        nineAgeController.text = _formData['nineAge'] ?? '';
+        codeClientController.text = _formData['codeClient'] ?? '';
+        designationController.text = _formData['designation'] ?? '';
+        siretController.text = _formData['siret'] ?? '';
+        mailController.text = _formData['mail'] ?? '';
+        phoneNumberController.text = _formData['phoneNumber'] ?? '';
+        addressController.text = _formData['address'] ?? '';
+        additionalAddressController.text = _formData['additionalAddress'] ?? '';
+        cityController.text = _formData['city'] ?? '';
+        postalCodeController.text = _formData['postalCode'] ?? '';
         // Continue for other controllers
       }
       notifyListeners();  // Notify widgets of state changes
@@ -60,12 +60,14 @@ class myFormState with ChangeNotifier {
     _currentStep = stepIndex;
     _formData.addAll(formData); // Use `addAll` to merge new data with existing map
     try {
-      await _preferences?.setInt('form_step', stepIndex);
-      await _preferences?.setString('form_data', json.encode(_formData));
-      notifyListeners();  // Notify widgets listening for state changes
-    } catch (e) {
-      // Handle errors, perhaps logging them
-    }
+    await _preferences?.setInt('form_step', stepIndex);
+    String encodedData = json.encode(_formData);
+    print("Encoded JSON data: $encodedData");  // Debug the JSON string
+    await _preferences?.setString('form_data', encodedData);
+    notifyListeners();  // Notify widgets listening for state changes
+  } catch (e) {
+    print("Error saving form data: $e");  // Log any errors
+  }
   }
 
   Future<void> resetForm() async {
@@ -74,16 +76,16 @@ class myFormState with ChangeNotifier {
     // Clear all text controllers
     dateController.clear();
     emailController.clear();
-    ageController.clear();
-    firstAgeController.clear();
-    secondAgeController.clear();
-    thirdAgeController.clear();
-    fourthAgeController.clear();
-    fifthAgeController.clear();
-    sixAgeController.clear();
-    sevenAgeController.clear();
-    eightAgeController.clear();
-    nineAgeController.clear();
+    //ageController.clear();
+    codeClientController.clear();
+    designationController.clear();
+    siretController.clear();
+    mailController.clear();
+    phoneNumberController.clear();
+    addressController.clear();
+    additionalAddressController.clear();
+    cityController.clear();
+    postalCodeController.clear();
     // Clear other controllers...
 
     // Clear any internal data maps

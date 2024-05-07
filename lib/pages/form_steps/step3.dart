@@ -4,30 +4,32 @@ import 'package:provider/provider.dart';
 
 class StepAge extends StatelessWidget {
   final GlobalKey<FormState> formKey;
-  final TextEditingController firstAgeController;
-  final TextEditingController secondAgeController;
-  final TextEditingController thirdAgeController;
-  final TextEditingController fourthAgeController;
-  final TextEditingController fifthAgeController;
-  final TextEditingController sixAgeController;
-  final TextEditingController sevenAgeController;
-  final TextEditingController eightAgeController;
-  final TextEditingController nineAgeController;
+  final int currentStep;
+  final TextEditingController codeClientController;
+  final TextEditingController designationController;
+  final TextEditingController siretController;
+  final TextEditingController mailController;
+  final TextEditingController phoneNumberController;
+  final TextEditingController addressController;
+  final TextEditingController additionalAddressController;
+  final TextEditingController cityController;
+  final TextEditingController postalCodeController;
   final TextEditingController searchController;
   final VoidCallback onNext;
   final VoidCallback onPrevious;
 
   StepAge({super.key, 
     required this.formKey,
-    required this.firstAgeController,
-    required this.secondAgeController, 
-    required this.thirdAgeController,
-    required this.fourthAgeController,
-    required this.fifthAgeController,
-    required this.sixAgeController,
-    required this.sevenAgeController,
-    required this.eightAgeController,
-    required this.nineAgeController,
+    this.currentStep = 2,
+    required this.codeClientController,
+    required this.designationController,
+    required this.siretController,
+    required this.mailController,
+    required this.phoneNumberController,
+    required this.addressController,
+    required this.additionalAddressController,
+    required this.cityController,
+    required this.postalCodeController,
     required this.onNext,
     required this.onPrevious,
   }) : searchController = TextEditingController();
@@ -44,30 +46,30 @@ class StepAge extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               buildSearchBar(context),
-              buildRow(firstAgeController, secondAgeController, 'Code client*', 'Désignation*', isFieldOneRequired: true, isFieldTwoRequired: true),
-              buildTextField(thirdAgeController, 'Numéro SIRET*', true),
-              buildRow(fourthAgeController, fifthAgeController, 'Mail*', 'Telephone', isFieldOneRequired: true),
-              buildTextField(sixAgeController, 'Adresse', true),
-              buildTextField(sevenAgeController, 'Complément d\'adresse'),
-              buildRow(eightAgeController, nineAgeController, 'Ville', 'Code postal', isFieldTwoRequired: true),
+              buildRow(codeClientController, designationController, 'Code client*', 'Désignation*', isFieldOneRequired: true, isFieldTwoRequired: true),
+              buildTextField(siretController, 'Numéro SIRET*', true),
+              buildRow(mailController, phoneNumberController, 'Mail*', 'Telephone', isFieldOneRequired: true),
+              buildTextField(addressController, 'Adresse', true),
+              buildTextField(additionalAddressController, 'Complément d\'adresse'),
+              buildRow(cityController, postalCodeController, 'Ville', 'Code postal', isFieldTwoRequired: false),
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
                     Map<String, String> formData = {
-                      'firstAge': firstAgeController.text,
-                      'secondAge': secondAgeController.text,
-                      'thirdAge': thirdAgeController.text,
-                      'fourthAge': thirdAgeController.text,
-                      'fifthAge': thirdAgeController.text,
-                      'sixAge': thirdAgeController.text,
-                      'sevenAge': thirdAgeController.text,
-                      'eightAge': thirdAgeController.text,
-                      'nineAge': thirdAgeController.text,
+                      'codeClient': codeClientController.text,
+                      'designation': designationController.text,
+                      'siret': siretController.text,
+                      'mail': mailController.text,
+                      'phoneNumber': phoneNumberController.text,
+                      'address': addressController.text,
+                      'additionalAddress': additionalAddressController.text,
+                      'city': cityController.text,
+                      'postalCode': postalCodeController.text,
                       // Add other fields similarly
                     };
                     // Assuming '2' is the index of this step
-                    Provider.of<myFormState>(context, listen: false).saveFormStep(2, formData);
+                    Provider.of<myFormState>(context, listen: false).saveFormStep(currentStep, formData);
                     onNext();
                   }
                 },
