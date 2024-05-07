@@ -8,10 +8,22 @@ class myFormState with ChangeNotifier {
   int _currentStep = 0;
   Map<String, dynamic> _formData = {};
 
+  // Define controllers
+  TextEditingController dateController = TextEditingController(); // First page
+  TextEditingController emailController = TextEditingController(); // Second page
+  TextEditingController ageController = TextEditingController(); // Third page
+  TextEditingController firstAgeController = TextEditingController();
+  TextEditingController secondAgeController = TextEditingController();
+  TextEditingController thirdAgeController = TextEditingController();
+  TextEditingController fourthAgeController = TextEditingController();
+  TextEditingController fifthAgeController = TextEditingController();
+  TextEditingController sixAgeController = TextEditingController();
+  TextEditingController sevenAgeController = TextEditingController();
+  TextEditingController eightAgeController = TextEditingController();
+  TextEditingController nineAgeController = TextEditingController();
+  // Define other controllers as needed...
+
   int get currentStep => _currentStep;
-  TextEditingController dateController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController ageController = TextEditingController();
   Map<String, dynamic> get formData => _formData;
 
   myFormState() {
@@ -19,32 +31,40 @@ class myFormState with ChangeNotifier {
     dateController.text = DateFormat('dd-MM-yyyy').format(DateTime.now());
   }
 
-  Future<void> _loadFromPrefs() async {
+  void _loadFromPrefs() async {
     try {
       _preferences = await SharedPreferences.getInstance();
       _currentStep = _preferences?.getInt('form_step') ?? 0;
       String? formDataJson = _preferences?.getString('form_data');
       if (formDataJson != null) {
         _formData = json.decode(formDataJson);
+        // Update controllers if their corresponding data exists
+        firstAgeController.text = _formData['firstAge'] ?? '';
+        secondAgeController.text = _formData['secondAge'] ?? '';
+        thirdAgeController.text = _formData['thirdAge'] ?? '';
+        fourthAgeController.text = _formData['fourthAge'] ?? '';
+        fifthAgeController.text = _formData['fifthAge'] ?? '';
+        sixAgeController.text = _formData['sixAge'] ?? '';
+        sevenAgeController.text = _formData['sevenAge'] ?? '';
+        eightAgeController.text = _formData['eightAge'] ?? '';
+        nineAgeController.text = _formData['nineAge'] ?? '';
+        // Continue for other controllers
       }
-      notifyListeners();  // Notifie les widgets à l'écoute d'un changement d'état
+      notifyListeners();  // Notify widgets of state changes
     } catch (e) {
-      // Gestion des erreurs
-      _currentStep = 0;  // Valeur par défaut en cas d'erreur
-      _formData = {};    // Réinitialisation des données du formulaire
-      notifyListeners();
+      // Handle errors
     }
   }
 
   Future<void> saveFormStep(int stepIndex, Map<String, dynamic> formData) async {
     _currentStep = stepIndex;
-    _formData = formData;
+    _formData.addAll(formData); // Use `addAll` to merge new data with existing map
     try {
       await _preferences?.setInt('form_step', stepIndex);
-      await _preferences?.setString('form_data', json.encode(formData));
-      notifyListeners();  // Notifie les widgets à l'écoute d'un changement d'état
+      await _preferences?.setString('form_data', json.encode(_formData));
+      notifyListeners();  // Notify widgets listening for state changes
     } catch (e) {
-      // Gestion des erreurs
+      // Handle errors, perhaps logging them
     }
   }
 
@@ -52,9 +72,19 @@ class myFormState with ChangeNotifier {
     await _preferences?.clear(); // Clear all saved data
 
     // Clear all text controllers
-    //dateController.clear();
+    dateController.clear();
     emailController.clear();
     ageController.clear();
+    firstAgeController.clear();
+    secondAgeController.clear();
+    thirdAgeController.clear();
+    fourthAgeController.clear();
+    fifthAgeController.clear();
+    sixAgeController.clear();
+    sevenAgeController.clear();
+    eightAgeController.clear();
+    nineAgeController.clear();
+    // Clear other controllers...
 
     // Clear any internal data maps
     _formData = {};
