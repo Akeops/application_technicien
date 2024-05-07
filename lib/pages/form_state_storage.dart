@@ -21,6 +21,7 @@ class myFormState with ChangeNotifier {
   TextEditingController additionalAddressController = TextEditingController();
   TextEditingController cityController = TextEditingController();
   TextEditingController postalCodeController = TextEditingController();
+  TextEditingController softwareInformationController = TextEditingController();
   // Define other controllers as needed...
 
   int get currentStep => _currentStep;
@@ -48,6 +49,7 @@ class myFormState with ChangeNotifier {
         additionalAddressController.text = _formData['additionalAddress'] ?? '';
         cityController.text = _formData['city'] ?? '';
         postalCodeController.text = _formData['postalCode'] ?? '';
+        softwareInformationController.text = _formData['postalCode'] ?? '';
         // Continue for other controllers
       }
       notifyListeners();  // Notify widgets of state changes
