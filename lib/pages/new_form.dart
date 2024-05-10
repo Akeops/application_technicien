@@ -5,6 +5,7 @@ import 'form_steps/step2.dart';
 import 'form_steps/step3.dart';
 import 'form_steps/step4.dart';
 import 'form_steps/step5.dart';
+import 'form_steps/step6.dart';
 
 class MultiStepForm extends StatefulWidget {
   const MultiStepForm({super.key});
@@ -15,7 +16,7 @@ class MultiStepForm extends StatefulWidget {
 
 class MultiStepFormState extends State<MultiStepForm> {
   final PageController _pageController = PageController();
-  late final List<GlobalKey<FormState>> _formKeys = List.generate(5, (index) => GlobalKey<FormState>());
+  late final List<GlobalKey<FormState>> _formKeys = List.generate(6, (index) => GlobalKey<FormState>());
   
   final TextEditingController _dateController = TextEditingController();
   final TextEditingController _timeController = TextEditingController();
@@ -31,6 +32,7 @@ class MultiStepFormState extends State<MultiStepForm> {
   final TextEditingController _postalCodeController = TextEditingController();
   final TextEditingController _interventionDecriptionController = TextEditingController();
   final TextEditingController _softwareInformationController = TextEditingController();
+  final TextEditingController _billingController = TextEditingController();
 
   @override
   void initState() {
@@ -59,6 +61,7 @@ class MultiStepFormState extends State<MultiStepForm> {
     _postalCodeController.dispose();
     _interventionDecriptionController.dispose();
     _softwareInformationController.dispose();
+    _billingController.dispose();
   }
 
   void _loadSavedStep() async {
@@ -84,6 +87,7 @@ class MultiStepFormState extends State<MultiStepForm> {
     _postalCodeController.text = prefs.getString('postalCode') ?? '';
     _interventionDecriptionController.text = prefs.getString('description') ?? '';
     _softwareInformationController.text = prefs.getString('softwareInformation') ?? '';
+    _billingController.text = prefs.getString('billing') ?? '';
   }
 
   void _nextPage() {
@@ -123,6 +127,7 @@ class MultiStepFormState extends State<MultiStepForm> {
     await prefs.setString('postalCode', _postalCodeController.text);
     await prefs.setString('description', _interventionDecriptionController.text);
     await prefs.setString('softwareInformation', _softwareInformationController.text);
+    await prefs.setString('billing', _billingController.text);
   }
 
   @override
@@ -159,7 +164,8 @@ class MultiStepFormState extends State<MultiStepForm> {
             onNext: _nextPage,
             onPrevious: _previousPage),
           StepDescriptionIntervention(formKey: _formKeys[3], interventionDecriptionController: _interventionDecriptionController, onNext: _nextPage, onPrevious: _previousPage),
-          StepSoftwareInformation(formKey: _formKeys[4], softwareInformationController: _softwareInformationController, onNext: _nextPage, onPrevious: _previousPage)
+          StepSoftwareInformation(formKey: _formKeys[4], softwareInformationController: _softwareInformationController, onNext: _nextPage, onPrevious: _previousPage),
+          StepBilling(formKey: _formKeys[5], billingController: _billingController, onNext: _nextPage, onPrevious: _previousPage)
         ],
       ),
     );

@@ -22,6 +22,7 @@ class myFormState with ChangeNotifier {
   TextEditingController cityController = TextEditingController();
   TextEditingController postalCodeController = TextEditingController();
   TextEditingController softwareInformationController = TextEditingController();
+  TextEditingController billingController = TextEditingController();
   // Define other controllers as needed...
 
   int get currentStep => _currentStep;
@@ -49,7 +50,8 @@ class myFormState with ChangeNotifier {
         additionalAddressController.text = _formData['additionalAddress'] ?? '';
         cityController.text = _formData['city'] ?? '';
         postalCodeController.text = _formData['postalCode'] ?? '';
-        softwareInformationController.text = _formData['postalCode'] ?? '';
+        softwareInformationController.text = _formData['softwareInformation'] ?? '';
+        billingController.text = _formData['billing'] ?? '';
         // Continue for other controllers
       }
       notifyListeners();  // Notify widgets of state changes
@@ -88,9 +90,10 @@ class myFormState with ChangeNotifier {
     additionalAddressController.clear();
     cityController.clear();
     postalCodeController.clear();
+    softwareInformationController.clear();
+    billingController.clear();
     // Clear other controllers...
-
-    // Clear any internal data maps
+ 
     _formData = {};
 
     notifyListeners(); // Notify listeners to rebuild UI
