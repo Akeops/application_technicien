@@ -6,6 +6,7 @@ import 'form_steps/step3.dart';
 import 'form_steps/step4.dart';
 import 'form_steps/step5.dart';
 import 'form_steps/step6.dart';
+import 'form_steps/step7.dart';
 
 class MultiStepForm extends StatefulWidget {
   const MultiStepForm({super.key});
@@ -16,7 +17,7 @@ class MultiStepForm extends StatefulWidget {
 
 class MultiStepFormState extends State<MultiStepForm> {
   final PageController _pageController = PageController();
-  late final List<GlobalKey<FormState>> _formKeys = List.generate(6, (index) => GlobalKey<FormState>());
+  late final List<GlobalKey<FormState>> _formKeys = List.generate(7, (index) => GlobalKey<FormState>());
   
   final TextEditingController _dateController = TextEditingController();
   final TextEditingController _timeController = TextEditingController();
@@ -33,6 +34,10 @@ class MultiStepFormState extends State<MultiStepForm> {
   final TextEditingController _interventionDecriptionController = TextEditingController();
   final TextEditingController _softwareInformationController = TextEditingController();
   final TextEditingController _billingController = TextEditingController();
+  final TextEditingController _totalWithoutTaxesController = TextEditingController();
+  final TextEditingController _vatController = TextEditingController();
+  final TextEditingController _includingDiscountController = TextEditingController();
+  final TextEditingController _totalPriceController = TextEditingController();
 
   @override
   void initState() {
@@ -62,6 +67,11 @@ class MultiStepFormState extends State<MultiStepForm> {
     _interventionDecriptionController.dispose();
     _softwareInformationController.dispose();
     _billingController.dispose();
+    _pageController.dispose();
+    _totalWithoutTaxesController.dispose();
+    _vatController.dispose();
+    _includingDiscountController.dispose();
+    _totalPriceController.dispose();
   }
 
   void _loadSavedStep() async {
@@ -88,6 +98,10 @@ class MultiStepFormState extends State<MultiStepForm> {
     _interventionDecriptionController.text = prefs.getString('description') ?? '';
     _softwareInformationController.text = prefs.getString('softwareInformation') ?? '';
     _billingController.text = prefs.getString('billing') ?? '';
+    _totalWithoutTaxesController.text = prefs.getString('totalWithoutTaxes') ?? '';
+    _vatController.text = prefs.getString('vat') ?? '';
+    _includingDiscountController.text = prefs.getString('includingDiscount') ?? '';
+    _totalPriceController.text = prefs.getString('totalPrice') ?? '';
   }
 
   void _nextPage() {
@@ -128,6 +142,10 @@ class MultiStepFormState extends State<MultiStepForm> {
     await prefs.setString('description', _interventionDecriptionController.text);
     await prefs.setString('softwareInformation', _softwareInformationController.text);
     await prefs.setString('billing', _billingController.text);
+    await prefs.setString('totalWithoutTaxes', _totalWithoutTaxesController.text);
+    await prefs.setString('vat', _vatController.text);
+    await prefs.setString('includingDiscount', _includingDiscountController.text);
+    await prefs.setString('totalPrice', _totalPriceController.text);
   }
 
   @override
@@ -165,7 +183,12 @@ class MultiStepFormState extends State<MultiStepForm> {
             onPrevious: _previousPage),
           StepDescriptionIntervention(formKey: _formKeys[3], interventionDecriptionController: _interventionDecriptionController, onNext: _nextPage, onPrevious: _previousPage),
           StepSoftwareInformation(formKey: _formKeys[4], softwareInformationController: _softwareInformationController, onNext: _nextPage, onPrevious: _previousPage),
-          StepBilling(formKey: _formKeys[5], billingController: _billingController, onNext: _nextPage, onPrevious: _previousPage)
+          StepBilling(formKey: _formKeys[5], billingController: _billingController, onNext: _nextPage, onPrevious: _previousPage),
+          ConfirmationPage(formKey: _formKeys[6],
+          totalWithoutTaxesController: _totalWithoutTaxesController,
+          vatController: _vatController,
+          includingDiscountController: _includingDiscountController,
+          totalPriceController: _totalPriceController, onNext: _nextPage, onPrevious: _previousPage),
         ],
       ),
     );
