@@ -52,38 +52,48 @@ class _StepBillingState extends State<StepBilling> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            DropdownButtonFormField<String>(
-              value: _selectedOption1,
-              hint: const Text("Déplacement"),
-              onChanged: (String? newValue) {
-                setState(() {
-                  _selectedOption1 = newValue;
-                  _savePreferences();
-                });
-              },
-              items: _options1.map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
+            Center(
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.5, // Set the width to 50% of the screen width
+                child: DropdownButtonFormField<String>(
+                  value: _selectedOption1,
+                  hint: const Text("Déplacement"),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      _selectedOption1 = newValue;
+                      _savePreferences();
+                    });
+                  },
+                  items: _options1.map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
+              ),
             ),
             const SizedBox(height: 20),
-            DropdownButtonFormField<String>(
-              value: _selectedOption2,
-              hint: const Text("Sous contrat"),
-              onChanged: (String? newValue) {
-                setState(() {
-                  _selectedOption2 = newValue;
-                  _savePreferences();
-                });
-              },
-              items: _options2.map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
+            Center(
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.5, // Similarly, set the width for the second dropdown
+                child: DropdownButtonFormField<String>(
+                  value: _selectedOption2,
+                  hint: const Text("Sous contrat"),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      _selectedOption2 = newValue;
+                      _savePreferences();
+                    });
+                  },
+                  items: _options2.map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
+              ),
             ),
             const SizedBox(height: 40),
             ElevatedButton(

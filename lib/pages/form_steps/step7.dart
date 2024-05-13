@@ -15,7 +15,7 @@ class ConfirmationPage extends StatefulWidget {
     Key? key,
     required this.formKey,
     required this.totalWithoutTaxesController,
-    required this.vatController,
+    required this.vatController, 
     required this.includingDiscountController,
     required this.totalPriceController,
     this.selectedOption1,
@@ -66,18 +66,21 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
                   Text("Selected Option: ${widget.selectedOption1 ?? "Not Selected"}", style: const TextStyle(fontSize: 16)),
                   const SizedBox(height: 10),
                   Text("Price to Pay: \$${price.toStringAsFixed(2)}", style: const TextStyle(fontSize: 20)),
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 20),
                   buildTextField("Total HT", widget.totalWithoutTaxesController),
                   buildTextField("Dont remise", widget.vatController),
                   buildTextField("TVA 20%", widget.includingDiscountController),
                   buildTextField("Total TTC", widget.totalPriceController),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 15),
                   ElevatedButton(
                     onPressed: widget.onNext,
                     child: const Text('Suivant'),
                   ),
                   ElevatedButton(
                     onPressed: widget.onPrevious,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.grey,
+                    ),
                     child: const Text('Précédent'),
                   ),
                 ],
@@ -91,13 +94,14 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
 
   Widget buildTextField(String label, TextEditingController controller) {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.6,
+      width: MediaQuery.of(context).size.width * 0.4,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(label, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-          SizedBox(height: 8),
+          Text(label, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+          const SizedBox(height: 8),
           TextField(
+            textAlign: TextAlign.center,  // Center the text within the TextField
             controller: controller,
             decoration: InputDecoration(
               border: OutlineInputBorder(
@@ -105,11 +109,11 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
               ),
               focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: Theme.of(context).primaryColor, width: 2.0),
-                borderRadius: BorderRadius.circular(8.0),
+                borderRadius: BorderRadius.circular(15.0),
               ),
             ),
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 10),
         ],
       ),
     );
