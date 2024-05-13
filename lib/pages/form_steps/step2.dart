@@ -65,44 +65,50 @@ class _StepInterventionState extends State<StepIntervention> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: widget.formKey,
-      child: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              ..._choices.keys.map((String key) {
-                return CheckboxListTile(
-                  title: Text(key),
-                  value: _choices[key],
-                  onChanged: (bool? value) {
-                    _toggleChoice(key);
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Type d'intervention"),
+        automaticallyImplyLeading: false,  // Removes the default back button
+      ),
+      body: Form(
+        key: widget.formKey,
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                ..._choices.keys.map((String key) {
+                  return CheckboxListTile(
+                    title: Text(key),
+                    value: _choices[key],
+                    onChanged: (bool? value) {
+                      _toggleChoice(key);
+                    },
+                  );
+                }),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    if (_validateSelection()) {
+                      widget.onNext();
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Please select at least one option before proceeding.'))
+                      );
+                    }
                   },
-                );
-              }).toList(),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  if (_validateSelection()) {
-                    widget.onNext();
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Please select at least one option before proceeding.'))
-                    );
-                  }
-                },
-                child: const Text('Suivant'),
-              ),
-              ElevatedButton(
-                onPressed: widget.onPrevious,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.grey,
+                  child: const Text('Suivant'),
                 ),
-                child: const Text('Précédent'),
-              ),
-            ],
+                ElevatedButton(
+                  onPressed: widget.onPrevious,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.grey,
+                  ),
+                  child: const Text('Précédent'),
+                ),
+              ],
+            ),
           ),
         ),
       ),

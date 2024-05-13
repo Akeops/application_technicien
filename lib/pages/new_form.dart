@@ -7,6 +7,7 @@ import 'form_steps/step4.dart';
 import 'form_steps/step5.dart';
 import 'form_steps/step6.dart';
 import 'form_steps/step7.dart';
+import 'form_steps/step8.dart';
 
 class MultiStepForm extends StatefulWidget {
   const MultiStepForm({super.key});

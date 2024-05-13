@@ -7,7 +7,8 @@ class StepBilling extends StatefulWidget {
   final VoidCallback onNext;
   final VoidCallback onPrevious;
 
-  const StepBilling({super.key,
+  const StepBilling({
+    super.key,
     required this.formKey,
     required this.billingController,
     required this.onNext,
@@ -47,53 +48,47 @@ class _StepBillingState extends State<StepBilling> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Facturation"),
+        automaticallyImplyLeading: false,  // Disables the back button
+      ),
       body: Form(
         key: widget.formKey,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Center(
-              child: Container(
-                width: MediaQuery.of(context).size.width * 0.5, // Set the width to 50% of the screen width
-                child: DropdownButtonFormField<String>(
-                  value: _selectedOption1,
-                  hint: const Text("Déplacement"),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      _selectedOption1 = newValue;
-                      _savePreferences();
-                    });
-                  },
-                  items: _options1.map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
-              ),
+            DropdownButtonFormField<String>(
+              value: _selectedOption1,
+              hint: const Text("Déplacement"),
+              onChanged: (String? newValue) {
+                setState(() {
+                  _selectedOption1 = newValue;
+                  _savePreferences();
+                });
+              },
+              items: _options1.map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
             ),
             const SizedBox(height: 20),
-            Center(
-              child: Container(
-                width: MediaQuery.of(context).size.width * 0.5, // Similarly, set the width for the second dropdown
-                child: DropdownButtonFormField<String>(
-                  value: _selectedOption2,
-                  hint: const Text("Sous contrat"),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      _selectedOption2 = newValue;
-                      _savePreferences();
-                    });
-                  },
-                  items: _options2.map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
-              ),
+            DropdownButtonFormField<String>(
+              value: _selectedOption2,
+              hint: const Text("Sous contrat"),
+              onChanged: (String? newValue) {
+                setState(() {
+                  _selectedOption2 = newValue;
+                  _savePreferences();
+                });
+              },
+              items: _options2.map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
             ),
             const SizedBox(height: 40),
             ElevatedButton(

@@ -1,5 +1,5 @@
-import 'package:application_tacteo/pages/form_state_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 
 class StepAge extends StatelessWidget {
@@ -18,7 +18,8 @@ class StepAge extends StatelessWidget {
   final VoidCallback onNext;
   final VoidCallback onPrevious;
 
-  StepAge({super.key, 
+  StepAge({
+    super.key,
     required this.formKey,
     this.currentStep = 2,
     required this.codeClientController,
@@ -36,58 +37,50 @@ class StepAge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
-      child: Form(
-        key: formKey,
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              buildSearchBar(context),
-              buildRow(codeClientController, designationController, 'Code client*', 'Désignation*', isFieldOneRequired: true, isFieldTwoRequired: true),
-              buildTextField(siretController, 'Numéro SIRET*', true),
-              buildRow(mailController, phoneNumberController, 'Mail*', 'Telephone', isFieldOneRequired: true),
-              buildTextField(addressController, 'Adresse', true),
-              buildTextField(additionalAddressController, 'Complément d\'adresse'),
-              buildRow(cityController, postalCodeController, 'Ville', 'Code postal', isFieldTwoRequired: false),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  if (formKey.currentState!.validate()) {
-                    Map<String, String> formData = {
-                      'codeClient': codeClientController.text,
-                      'designation': designationController.text,
-                      'siret': siretController.text,
-                      'mail': mailController.text,
-                      'phoneNumber': phoneNumberController.text,
-                      'address': addressController.text,
-                      'additionalAddress': additionalAddressController.text,
-                      'city': cityController.text,
-                      'postalCode': postalCodeController.text,
-                      // Add other fields similarly
-                    };
-                    // Assuming '2' is the index of this step
-                    Provider.of<myFormState>(context, listen: false).saveFormStep(currentStep, formData);
-                    onNext();
-                  }
-                },
-                child: const Text('Suivant'),
-              ),
-              ElevatedButton(
-                onPressed: onPrevious,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.grey,
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Informations Client"),  // Specify your page title here
+        automaticallyImplyLeading: false,  // Removes the default back button
+      ),
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Form(
+          key: formKey,
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                buildSearchBar(context),
+                buildRow(codeClientController, designationController, 'Code client*', 'Désignation*', isFieldOneRequired: true, isFieldTwoRequired: true),
+                buildTextField(siretController, 'Numéro SIRET*', true),
+                buildRow(mailController, phoneNumberController, 'Mail*', 'Telephone', isFieldOneRequired: true),
+                buildTextField(addressController, 'Adresse', true),
+                buildTextField(additionalAddressController, 'Complément d\'adresse'),
+                buildRow(cityController, postalCodeController, 'Ville', 'Code postal', isFieldTwoRequired: false),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    if (formKey.currentState!.validate()) {
+                      // Save form state or execute onNext
+                      onNext();
+                    }
+                  },
+                  child: const Text('Suivant'),
                 ),
-                child: const Text('Précédent'),
-              ),
-            ],
+                ElevatedButton(
+                  onPressed: onPrevious,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.grey,
+                  ),
+                  child: const Text('Précédent'),
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
-  }
   }
 
   Widget buildRow(TextEditingController controllerOne, TextEditingController controllerTwo, String labelOne, String labelTwo, {bool isFieldOneRequired = false, bool isFieldTwoRequired = false}) {
@@ -97,7 +90,7 @@ class StepAge extends StatelessWidget {
           child: TextFormField(
             controller: controllerOne,
             decoration: InputDecoration(labelText: labelOne),
-            validator: isFieldOneRequired ? (value) => value == null || value.isEmpty ? 'Ce champ ne peut pas être vide' : null : null,
+            validator: isFieldOneRequired ? (value) => value == null || value.isEmpty ? 'This field cannot be empty' : null : null,
           ),
         ),
         const SizedBox(width: 10), // Space between fields
@@ -105,7 +98,7 @@ class StepAge extends StatelessWidget {
           child: TextFormField(
             controller: controllerTwo,
             decoration: InputDecoration(labelText: labelTwo),
-            validator: isFieldTwoRequired ? (value) => value == null || value.isEmpty ? 'Ce champ ne peut pas être vide' : null : null,
+            validator: isFieldTwoRequired ? (value) => value == null || value.isEmpty ? 'This field cannot be empty' : null : null,
           ),
         ),
       ],
@@ -116,16 +109,15 @@ class StepAge extends StatelessWidget {
     return TextFormField(
       controller: controller,
       decoration: InputDecoration(labelText: labelText),
-      validator: isRequired ? (value) => value == null || value.isEmpty ? 'Ce champ ne peut pas être vide' : null : null,
+      validator: isRequired ? (value) => value == null || value.isEmpty ? 'This field cannot be empty' : null : null,
     );
   }
 
   Widget buildSearchBar(BuildContext context) {
-    final TextEditingController searchController = TextEditingController(); // Initialisé immédiatement dans la méthode
     return TextField(
       controller: searchController,
       decoration: InputDecoration(
-        labelText: 'Rechercher',
+        labelText: 'Search',
         suffixIcon: IconButton(
           icon: const Icon(Icons.search),
           onPressed: () {
@@ -137,7 +129,7 @@ class StepAge extends StatelessWidget {
         border: const OutlineInputBorder(),
       ),
       onSubmitted: (value) {
-        executeSearch(value); 
+        executeSearch(value);
         searchController.clear();
         FocusScope.of(context).unfocus();
       },
@@ -147,5 +139,4 @@ class StepAge extends StatelessWidget {
   void executeSearch(String query) {
     print("Searching for: $query");
   }
-
-
+}

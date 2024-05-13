@@ -12,7 +12,7 @@ class ConfirmationPage extends StatefulWidget {
   final VoidCallback onPrevious;
 
   ConfirmationPage({
-    Key? key,
+    super.key,
     required this.formKey,
     required this.totalWithoutTaxesController,
     required this.vatController, 
@@ -21,7 +21,7 @@ class ConfirmationPage extends StatefulWidget {
     this.selectedOption1,
     required this.onNext,
     required this.onPrevious,
-  }) : super(key: key);
+  });
 
   @override
   _ConfirmationPageState createState() => _ConfirmationPageState();
@@ -49,6 +49,10 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+      title: const Text("Facturation"),
+      automaticallyImplyLeading: false,
+      ),
       body: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: () {

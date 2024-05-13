@@ -7,7 +7,8 @@ class StepSoftwareInformation extends StatefulWidget {
   final VoidCallback onNext;
   final VoidCallback onPrevious;
 
-  const StepSoftwareInformation({super.key, 
+  const StepSoftwareInformation({
+    super.key, 
     required this.formKey,
     required this.softwareInformationController,
     required this.onNext,
@@ -63,26 +64,25 @@ class _StepSoftwareInformationState extends State<StepSoftwareInformation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,  // Prevents scaffold from resizing when keyboard shows
-      body: Form(
-        key: widget.formKey,
-        child: GestureDetector(
-          onTap: () {
-            var currentFocus = FocusScope.of(context);
-            if (!currentFocus.hasPrimaryFocus && currentFocus.focusedChild != null) {
-              FocusManager.instance.primaryFocus!.unfocus();
-            }
-          },
+      appBar: AppBar(
+        title: const Text("Informations logicielles"),
+        automaticallyImplyLeading: false,  // This prevents a back button from appearing
+      ),
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();  // Hide keyboard when tapping outside of text fields
+        },
+        child: Form(
+          key: widget.formKey,
           child: Center(
             child: Padding(
               padding: const EdgeInsets.all(24.0),
-              child: SingleChildScrollView(  // Allows scrolling when keyboard appears
-                physics: BouncingScrollPhysics(),  // Adds iOS-like bouncing effect
+              child: SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     TextFormField(
-                      controller: widget.softwareInformationController, // Use the provided controller
+                      controller: widget.softwareInformationController,
                       decoration: const InputDecoration(
                         labelText: 'Enter software information',
                         border: OutlineInputBorder(),
