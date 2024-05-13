@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ConfirmationPage extends StatefulWidget {
   final GlobalKey<FormState> formKey;
@@ -6,18 +7,20 @@ class ConfirmationPage extends StatefulWidget {
   final TextEditingController vatController;
   final TextEditingController includingDiscountController;
   final TextEditingController totalPriceController;
+  String? selectedOption1;  // Allow it to be null
   final VoidCallback onNext;
   final VoidCallback onPrevious;
 
-  const ConfirmationPage({
+  ConfirmationPage({
     Key? key,
     required this.formKey,
     required this.totalWithoutTaxesController,
-    required this.vatController, 
+    required this.vatController,
     required this.includingDiscountController,
-    required this.totalPriceController, 
+    required this.totalPriceController,
+    this.selectedOption1,
     required this.onNext,
-    required this.onPrevious, 
+    required this.onPrevious,
   }) : super(key: key);
 
   @override
@@ -25,8 +28,23 @@ class ConfirmationPage extends StatefulWidget {
 }
 
 class _ConfirmationPageState extends State<ConfirmationPage> {
-  String? selectedOption;
-  double price = 0;
+  double price = 0; // Assuming price calculation is handled elsewhere
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSelectedOption();
+  }
+
+  Future<void> _loadSelectedOption() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? loadedOption = prefs.getString('selectedOption1');
+    if (loadedOption != null && loadedOption != widget.selectedOption1) {
+      setState(() {
+        widget.selectedOption1 = loadedOption;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,23 +62,23 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  SizedBox(height: 20),
-                  Text("Selected Option: ${selectedOption ?? "None"}", style: TextStyle(fontSize: 16)),
-                  SizedBox(height: 10),
-                  Text("Price to Pay: \$${price.toStringAsFixed(2)}", style: TextStyle(fontSize: 20)),
-                  SizedBox(height: 30),
-                  buildTextField("First Name", widget.totalWithoutTaxesController),
-                  buildTextField("Last Name", widget.vatController),
-                  buildTextField("Email Address", widget.includingDiscountController),
-                  buildTextField("totalPrice", widget.totalPriceController),
-                  SizedBox(height: 20), 
+                  const SizedBox(height: 20),
+                  Text("Selected Option: ${widget.selectedOption1 ?? "Not Selected"}", style: const TextStyle(fontSize: 16)),
+                  const SizedBox(height: 10),
+                  Text("Price to Pay: \$${price.toStringAsFixed(2)}", style: const TextStyle(fontSize: 20)),
+                  const SizedBox(height: 30),
+                  buildTextField("Total HT", widget.totalWithoutTaxesController),
+                  buildTextField("Dont remise", widget.vatController),
+                  buildTextField("TVA 20%", widget.includingDiscountController),
+                  buildTextField("Total TTC", widget.totalPriceController),
+                  const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: widget.onNext,
-                    child: Text('Next'),
+                    child: const Text('Suivant'),
                   ),
                   ElevatedButton(
                     onPressed: widget.onPrevious,
-                    child: Text('Back'),
+                    child: const Text('Précédent'),
                   ),
                 ],
               ),
@@ -91,7 +109,7 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
               ),
             ),
           ),
-          SizedBox(height: 16), 
+          SizedBox(height: 16),
         ],
       ),
     );

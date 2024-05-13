@@ -33,15 +33,15 @@ class _StepBillingState extends State<StepBilling> {
   Future<void> _loadPreferences() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      _selectedOption1 = prefs.getString('selectedOption1');
-      _selectedOption2 = prefs.getString('selectedOption2');
+      _selectedOption1 = prefs.getString('selectedOption1') ?? _options1.first;
+      _selectedOption2 = prefs.getString('selectedOption2') ?? _options2.first;
     });
   }
 
   Future<void> _savePreferences() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('selectedOption1', _selectedOption1 ?? '');
-    await prefs.setString('selectedOption2', _selectedOption2 ?? '');
+    await prefs.setString('selectedOption1', _selectedOption1 ?? _options1.first);
+    await prefs.setString('selectedOption2', _selectedOption2 ?? _options2.first);
   }
 
   @override

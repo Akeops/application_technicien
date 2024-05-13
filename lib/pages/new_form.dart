@@ -38,6 +38,7 @@ class MultiStepFormState extends State<MultiStepForm> {
   final TextEditingController _vatController = TextEditingController();
   final TextEditingController _includingDiscountController = TextEditingController();
   final TextEditingController _totalPriceController = TextEditingController();
+  String selectedOption1 = "Default value"; // Default value
 
   @override
   void initState() {
@@ -78,6 +79,7 @@ class MultiStepFormState extends State<MultiStepForm> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int savedStep = prefs.getInt('currentStep') ?? 0;
     _loadDataFromPrefs(prefs);
+    selectedOption1 = prefs.getString('selectedOption1') ?? "Default Option";
     if (savedStep != 0) {
       _pageController.jumpToPage(savedStep);
     }
@@ -188,7 +190,7 @@ class MultiStepFormState extends State<MultiStepForm> {
           totalWithoutTaxesController: _totalWithoutTaxesController,
           vatController: _vatController,
           includingDiscountController: _includingDiscountController,
-          totalPriceController: _totalPriceController, onNext: _nextPage, onPrevious: _previousPage),
+          totalPriceController: _totalPriceController, onNext: _nextPage, onPrevious: _previousPage, selectedOption1: selectedOption1,),
         ],
       ),
     );
