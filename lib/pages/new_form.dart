@@ -8,6 +8,7 @@ import 'form_steps/step5.dart';
 import 'form_steps/step6.dart';
 import 'form_steps/step7.dart';
 import 'form_steps/step8.dart';
+import 'form_steps/step9.dart';
 
 class MultiStepForm extends StatefulWidget {
   const MultiStepForm({super.key});
@@ -18,7 +19,7 @@ class MultiStepForm extends StatefulWidget {
 
 class MultiStepFormState extends State<MultiStepForm> {
   final PageController _pageController = PageController();
-  late final List<GlobalKey<FormState>> _formKeys = List.generate(8, (index) => GlobalKey<FormState>());
+  late final List<GlobalKey<FormState>> _formKeys = List.generate(9, (index) => GlobalKey<FormState>());
   
   final TextEditingController _dateController = TextEditingController();
   final TextEditingController _timeController = TextEditingController();
@@ -214,6 +215,8 @@ class MultiStepFormState extends State<MultiStepForm> {
           civilityController: _civilityController,
           signatoryInformationController: _signatoryInformationController, 
           onNext: _nextPage, onPrevious: _previousPage,),
+          SignatoryDocumentPage(formKey: _formKeys[8], 
+          onNext: _nextPage, onPrevious: _previousPage,)
         ],
       ),
     );
