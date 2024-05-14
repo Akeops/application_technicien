@@ -99,25 +99,32 @@ class _StepSoftwareInformationState extends State<StepSoftwareInformation> {
                         },
                       );
                     }).toList(),
-                    const SizedBox(height: 20),
-                    ElevatedButton(
-                      onPressed: () {
-                        if (_validateSelection()) {
-                          widget.onNext();
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Please select at least one option before proceeding.'))
-                          );
-                        }
-                      },
-                      child: const Text('Suivant'),
-                    ),
-                    ElevatedButton(
-                      onPressed: widget.onPrevious,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.grey,
-                      ),
-                      child: const Text('Précédent'),
+                    const SizedBox(height: 60), // Increased space before the button row
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,  // Distributes space evenly around the children
+                      children: <Widget>[
+                        SizedBox(
+                          width: 150,  // Specify the width of the button for 'Précédent'
+                          child: ElevatedButton(
+                            onPressed: widget.onPrevious,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.grey,  // Consistent with the 'Previous' button
+                            ),
+                            child: const Text('Précédent'),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 150,  // Ensure this is the same as the first button to maintain uniformity for 'Suivant'
+                          child: ElevatedButton(
+                            onPressed: () {
+                              if (widget.formKey.currentState!.validate()) {
+                                widget.onNext();
+                              }
+                            },
+                            child: const Text('Suivant'),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),

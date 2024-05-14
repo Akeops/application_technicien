@@ -20,7 +20,7 @@ class ConfirmationPage extends StatefulWidget {
     required this.totalPriceController,
     this.selectedOption1,
     required this.onNext,
-    required this.onPrevious,
+    required this.onPrevious, 
   });
 
   @override
@@ -50,8 +50,8 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-      title: const Text("Facturation"),
-      automaticallyImplyLeading: false,
+        title: const Text("Facturation"),
+        automaticallyImplyLeading: false,
       ),
       body: GestureDetector(
         behavior: HitTestBehavior.opaque,
@@ -67,25 +67,40 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   const SizedBox(height: 20),
-                  Text("Selected Option: ${widget.selectedOption1 ?? "Not Selected"}", style: const TextStyle(fontSize: 16)),
+                  Text("Option sélectionné: ${widget.selectedOption1 ?? "Not Selected"}", style: const TextStyle(fontSize: 16)),
                   const SizedBox(height: 10),
-                  Text("Price to Pay: \$${price.toStringAsFixed(2)}", style: const TextStyle(fontSize: 20)),
+                  Text("Prix à payer: \$${price.toStringAsFixed(2)}", style: const TextStyle(fontSize: 20)),
                   const SizedBox(height: 20),
                   buildTextField("Total HT", widget.totalWithoutTaxesController),
                   buildTextField("Dont remise", widget.vatController),
                   buildTextField("TVA 20%", widget.includingDiscountController),
                   buildTextField("Total TTC", widget.totalPriceController),
-                  const SizedBox(height: 15),
-                  ElevatedButton(
-                    onPressed: widget.onNext,
-                    child: const Text('Suivant'),
-                  ),
-                  ElevatedButton(
-                    onPressed: widget.onPrevious,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.grey,
-                    ),
-                    child: const Text('Précédent'),
+                  const SizedBox(height: 120), // Increased spacing
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      SizedBox(
+                        width: 150,
+                        child: ElevatedButton(
+                          onPressed: widget.onPrevious,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.grey,
+                          ),
+                          child: const Text('Précédent'),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 150,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            if (widget.formKey.currentState!.validate()) {
+                              widget.onNext();
+                            }
+                          },
+                          child: const Text('Suivant'),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -97,7 +112,7 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
   }
 
   Widget buildTextField(String label, TextEditingController controller) {
-    return Container(
+    return SizedBox(
       width: MediaQuery.of(context).size.width * 0.4,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -105,7 +120,7 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
           Text(label, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
           const SizedBox(height: 8),
           TextField(
-            textAlign: TextAlign.center,  // Center the text within the TextField
+            textAlign: TextAlign.center,
             controller: controller,
             decoration: InputDecoration(
               border: OutlineInputBorder(

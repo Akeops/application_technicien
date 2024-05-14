@@ -58,22 +58,31 @@ class StepAge extends StatelessWidget {
                 buildTextField(addressController, 'Adresse', true),
                 buildTextField(additionalAddressController, 'Complément d\'adresse'),
                 buildRow(cityController, postalCodeController, 'Ville', 'Code postal', isFieldTwoRequired: false),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    if (formKey.currentState!.validate()) {
-                      // Save form state or execute onNext
-                      onNext();
-                    }
-                  },
-                  child: const Text('Suivant'),
-                ),
-                ElevatedButton(
-                  onPressed: onPrevious,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.grey,
-                  ),
-                  child: const Text('Précédent'),
+                const SizedBox(height: 80), // Added more space before the buttons
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,  // Adjusts to space between rather than around
+                  children: <Widget>[
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: onPrevious,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.grey,  // Consistent with the 'Previous' button
+                        ),
+                        child: const Text('Précédent'),
+                      ),
+                    ),
+                    const SizedBox(width: 20), // Space between the buttons
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (formKey.currentState!.validate()) {
+                            onNext();
+                          }
+                        },
+                        child: const Text('Suivant'),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),

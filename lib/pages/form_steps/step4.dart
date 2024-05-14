@@ -49,23 +49,32 @@ class StepDescriptionIntervention extends StatelessWidget {
                     return null;
                   },
                 ),
-                const SizedBox(height: 40),
-                ElevatedButton(
-                  onPressed: () async {
-                    if (formKey.currentState!.validate()) {
-                      await _saveDescription(interventionDecriptionController.text);
-                      onNext();
-                    }
-                  },
-                  child: const Text('Suivant'),
-                ),
-                const SizedBox(height: 10), // Spacing between buttons
-                ElevatedButton(
-                  onPressed: onPrevious,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.grey,
-                  ),
-                  child: const Text('Précédent'),
+                const SizedBox(height: 60),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,  // Distributes space evenly around the children
+                  children: <Widget>[
+                    SizedBox(
+                      width: 150,  // Specify the width of the button for 'Précédent'
+                      child: ElevatedButton(
+                        onPressed: onPrevious,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.grey,  // Consistent with the 'Previous' button
+                        ),
+                        child: const Text('Précédent'),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 150,  // Ensure this is the same as the first button to maintain uniformity for 'Suivant'
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (formKey.currentState!.validate()) {
+                            onNext();
+                          }
+                        },
+                        child: const Text('Suivant'),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),

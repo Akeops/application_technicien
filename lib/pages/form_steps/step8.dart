@@ -3,12 +3,20 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SignatoryInformation extends StatefulWidget {
   final GlobalKey<FormState> formKey;
+  final TextEditingController civilityController;
+  final TextEditingController nameController;
+  final TextEditingController qualityController;
+  final TextEditingController signatoryInformationController;
   final VoidCallback onNext;
   final VoidCallback onPrevious;
 
   const SignatoryInformation({
     super.key,
     required this.formKey,
+    required this.civilityController,
+    required this.nameController,
+    required this.qualityController,
+    required this.signatoryInformationController,
     required this.onNext,
     required this.onPrevious,
   });
@@ -18,11 +26,10 @@ class SignatoryInformation extends StatefulWidget {
 }
 
 class _SignatoryInformationState extends State<SignatoryInformation> {
-  final TextEditingController _textInputController = TextEditingController();
-  String? _selectedOption1;
-  String? _selectedOption2;
-  final List<String> _options1 = ['Option 1', 'Option 2', 'Option 3'];
-  final List<String> _options2 = ['Choice A', 'Choice B', 'Choice C'];
+  String? _selectedCivility;
+  String? _selectedQuality;
+  final List<String> _civilityOptions = ['Monsieur', 'Madame'];
+  final List<String> _qualityOptions = ['Gérant(e)', 'Responsable', 'Directeur(ice)', 'Salarié(e)', 'Président(e)'];
 
   @override
   void initState() {
@@ -33,101 +40,102 @@ class _SignatoryInformationState extends State<SignatoryInformation> {
   Future<void> _loadPreferences() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      _selectedOption1 = prefs.getString('selectedOption1') ?? _options1.first;
-      _selectedOption2 = prefs.getString('selectedOption2') ?? _options2.first;
-      _textInputController.text = prefs.getString('textInput') ?? '';
+      _selectedCivility = prefs.getString('selectedCivility') ?? _civilityOptions.first;
+      _selectedQuality = prefs.getString('selectedQuality') ?? _qualityOptions.first;
     });
   }
 
   Future<void> _savePreferences() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('selectedOption1', _selectedOption1 ?? _options1.first);
-    await prefs.setString('selectedOption2', _selectedOption2 ?? _options2.first);
-    await prefs.setString('textInput', _textInputController.text);
+    await prefs.setString('selectedCivility', _selectedCivility ?? _civilityOptions.first);
+    await prefs.setString('selectedQuality', _selectedQuality ?? _qualityOptions.first);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Custom Page"),
+        title: const Text("Information signataire"),
         automaticallyImplyLeading: false,
       ),
-      body: Form(
-        key: widget.formKey,
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              DropdownButtonFormField<String>(
-                value: _selectedOption1,
-                hint: const Text("Select Option"),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    _selectedOption1 = newValue;
-                    _savePreferences();
-                  });
-                },
-                items: _options1.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              ),
-              const SizedBox(height: 20),
-              TextFormField(
-                controller: _textInputController,
-                decoration: const InputDecoration(
-                  labelText: 'Enter Details',
-                  border: OutlineInputBorder(),
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Form(
+          key: widget.formKey,
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                buildDropdown(_selectedCivility, _civilityOptions, 'Select Civility', (newValue) {
+                  setState(() => _selectedCivility = newValue);
+                  _savePreferences();
+                }),
+                const SizedBox(height: 20),
+                TextFormField(
+                  controller: widget.signatoryInformationController,
+                  decoration: const InputDecoration(
+                    labelText: 'Nom*',
+                    border: OutlineInputBorder(),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter signatory details';
+                    }
+                    return null;
+                  },
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter some text';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 20),
-              DropdownButtonFormField<String>(
-                value: _selectedOption2,
-                hint: const Text("Choose Preference"),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    _selectedOption2 = newValue;
-                    _savePreferences();
-                  });
-                },
-                items: _options2.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              ),
-              const SizedBox(height: 40),
-              ElevatedButton(
-                onPressed: () {
-                  if (widget.formKey.currentState!.validate()) {
-                    _savePreferences();
-                    widget.onNext();
-                  }
-                },
-                child: const Text('Next'),
-              ),
-              ElevatedButton(
-                onPressed: widget.onPrevious,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.grey,
+                const SizedBox(height: 20),
+                buildDropdown(_selectedQuality, _qualityOptions, 'Select Quality', (newValue) {
+                  setState(() => _selectedQuality = newValue);
+                  _savePreferences();
+                }),
+                const SizedBox(height: 80), // Increased spacing for visual separation
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    SizedBox(
+                      width: 150,
+                      child: ElevatedButton(
+                        onPressed: widget.onPrevious,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.grey,
+                        ),
+                        child: const Text('Précédent'),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 150,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (widget.formKey.currentState!.validate()) {
+                            widget.onNext();
+                          }
+                        },
+                        child: const Text('Suivant'),
+                      ),
+                    ),
+                  ],
                 ),
-                child: const Text('Back'),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
+    );
+  }
+
+  Widget buildDropdown(String? currentValue, List<String> options, String hint, void Function(String?) onChanged) {
+    return DropdownButtonFormField<String>(
+      value: currentValue,
+      hint: Text(hint),
+      onChanged: onChanged,
+      items: options.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
     );
   }
 }

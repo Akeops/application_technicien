@@ -18,7 +18,7 @@ class MultiStepForm extends StatefulWidget {
 
 class MultiStepFormState extends State<MultiStepForm> {
   final PageController _pageController = PageController();
-  late final List<GlobalKey<FormState>> _formKeys = List.generate(7, (index) => GlobalKey<FormState>());
+  late final List<GlobalKey<FormState>> _formKeys = List.generate(8, (index) => GlobalKey<FormState>());
   
   final TextEditingController _dateController = TextEditingController();
   final TextEditingController _timeController = TextEditingController();
@@ -40,6 +40,10 @@ class MultiStepFormState extends State<MultiStepForm> {
   final TextEditingController _includingDiscountController = TextEditingController();
   final TextEditingController _totalPriceController = TextEditingController();
   String selectedOption1 = "Default value"; // Default value
+  final TextEditingController _signatoryInformationController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _qualityController = TextEditingController();
+  final TextEditingController _civilityController = TextEditingController();
 
   @override
   void initState() {
@@ -74,6 +78,10 @@ class MultiStepFormState extends State<MultiStepForm> {
     _vatController.dispose();
     _includingDiscountController.dispose();
     _totalPriceController.dispose();
+    _signatoryInformationController.dispose();
+    _nameController.dispose();
+    _qualityController.dispose();
+    _civilityController.dispose();
   }
 
   void _loadSavedStep() async {
@@ -105,6 +113,10 @@ class MultiStepFormState extends State<MultiStepForm> {
     _vatController.text = prefs.getString('vat') ?? '';
     _includingDiscountController.text = prefs.getString('includingDiscount') ?? '';
     _totalPriceController.text = prefs.getString('totalPrice') ?? '';
+    _signatoryInformationController.text = prefs.getString('signatoryinformation') ?? ''; 
+    _nameController.text = prefs.getString('nameController') ?? '';
+    _qualityController.text = prefs.getString('qualityController') ?? '';
+    _civilityController.text = prefs.getString('civilityController') ?? '';
   }
 
   void _nextPage() {
@@ -149,6 +161,10 @@ class MultiStepFormState extends State<MultiStepForm> {
     await prefs.setString('vat', _vatController.text);
     await prefs.setString('includingDiscount', _includingDiscountController.text);
     await prefs.setString('totalPrice', _totalPriceController.text);
+    await prefs.setString('signatoryInformationController', _signatoryInformationController.text);
+    await prefs.setString('nameController', _nameController.text);
+    await prefs.setString('qualityController', _qualityController.text);
+    await prefs.setString('civilityController', _civilityController.text);
   }
 
   @override
@@ -168,7 +184,7 @@ class MultiStepFormState extends State<MultiStepForm> {
         controller: _pageController,
         physics: const NeverScrollableScrollPhysics(),
         children: <Widget>[
-          StepDateOfBirth(formKey: _formKeys[0], dateController: _dateController, onNext: _nextPage, onPrevious: () {  }),
+          StepDateOfBirth(formKey: _formKeys[0], dateController: _dateController, onNext: _nextPage,),
           StepIntervention(formKey: _formKeys[1], interventionController: _interventionController, onNext: _nextPage, onPrevious: _previousPage),
           StepAge(
             formKey: _formKeys[2],
@@ -191,7 +207,13 @@ class MultiStepFormState extends State<MultiStepForm> {
           totalWithoutTaxesController: _totalWithoutTaxesController,
           vatController: _vatController,
           includingDiscountController: _includingDiscountController,
-          totalPriceController: _totalPriceController, onNext: _nextPage, onPrevious: _previousPage, selectedOption1: selectedOption1,),
+          totalPriceController: _totalPriceController, onNext: _nextPage, onPrevious: _previousPage, selectedOption1: selectedOption1),
+          SignatoryInformation(formKey: _formKeys[7],
+          nameController: _nameController,
+          qualityController: _qualityController,
+          civilityController: _civilityController,
+          signatoryInformationController: _signatoryInformationController, 
+          onNext: _nextPage, onPrevious: _previousPage,),
         ],
       ),
     );

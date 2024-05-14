@@ -6,16 +6,15 @@ class StepDateOfBirth extends StatelessWidget {
   final TextEditingController dateController;
   final TextEditingController timeController; // Controller for the time
   final VoidCallback onNext;
-  final VoidCallback onPrevious;
 
-  StepDateOfBirth({super.key, 
+  StepDateOfBirth({
+    super.key,
     required this.formKey,
-    required TextEditingController dateController,
+    required this.dateController,
     required this.onNext,
-    required this.onPrevious,
-  }) : dateController = dateController..text = DateFormat('dd-MM-yyyy').format(DateTime.now()),
-       timeController = TextEditingController()..text = DateFormat('HH:mm').format(DateTime.now()) {
-    // Initialize the text controllers with today's date and current time.
+  }) : timeController = TextEditingController()..text = DateFormat('HH:mm').format(DateTime.now()) {
+    // Initialize the dateController with today's date
+    dateController.text = DateFormat('dd-MM-yyyy').format(DateTime.now());
   }
 
   @override
@@ -76,9 +75,9 @@ class StepDateOfBirth extends StatelessWidget {
                     return value == null || value.isEmpty ? 'Ce champ ne peut pas être vide' : null;
                   },
                 ),
-                const SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
+                const SizedBox(height: 60),  // Increased space before the button
+                Align(
+                  alignment: Alignment.centerRight,
                   child: ElevatedButton(
                     onPressed: () {
                       if (formKey.currentState!.validate()) {

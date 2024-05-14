@@ -57,50 +57,75 @@ class _StepBillingState extends State<StepBilling> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            DropdownButtonFormField<String>(
-              value: _selectedOption1,
-              hint: const Text("Déplacement"),
-              onChanged: (String? newValue) {
-                setState(() {
-                  _selectedOption1 = newValue;
-                  _savePreferences();
-                });
-              },
-              items: _options1.map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
+            Center(
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.7, // Reduced width and centered
+                child: DropdownButtonFormField<String>(
+                  value: _selectedOption1,
+                  hint: const Text("Déplacement"),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      _selectedOption1 = newValue;
+                      _savePreferences();
+                    });
+                  },
+                  items: _options1.map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
+              ),
             ),
             const SizedBox(height: 20),
-            DropdownButtonFormField<String>(
-              value: _selectedOption2,
-              hint: const Text("Sous contrat"),
-              onChanged: (String? newValue) {
-                setState(() {
-                  _selectedOption2 = newValue;
-                  _savePreferences();
-                });
-              },
-              items: _options2.map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-            ),
-            const SizedBox(height: 40),
-            ElevatedButton(
-              onPressed: widget.onNext,
-              child: const Text('Suivant'),
-            ),
-            ElevatedButton(
-              onPressed: widget.onPrevious,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.grey,
+            Center(
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.7, // Same as the first dropdown
+                child: DropdownButtonFormField<String>(
+                  value: _selectedOption2,
+                  hint: const Text("Sous contrat"),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      _selectedOption2 = newValue;
+                      _savePreferences();
+                    });
+                  },
+                  items: _options2.map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
               ),
-              child: const Text('Précédent'),
+            ),
+            const SizedBox(height: 100),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                SizedBox(
+                  width: 150,  // Specify the width of the button for 'Précédent'
+                  child: ElevatedButton(
+                    onPressed: widget.onPrevious,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.grey,
+                    ),
+                    child: const Text('Précédent'),
+                  ),
+                ),
+                SizedBox(
+                  width: 150,  // Ensure this is the same as the first button to maintain uniformity for 'Suivant'
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if (widget.formKey.currentState!.validate()) {
+                        widget.onNext();
+                      }
+                    },
+                    child: const Text('Suivant'),
+                  ),
+                ),
+              ],
             ),
           ],
         ),

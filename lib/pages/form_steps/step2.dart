@@ -87,25 +87,31 @@ class _StepInterventionState extends State<StepIntervention> {
                     },
                   );
                 }),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    if (_validateSelection()) {
-                      widget.onNext();
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Please select at least one option before proceeding.'))
-                      );
-                    }
-                  },
-                  child: const Text('Suivant'),
-                ),
-                ElevatedButton(
-                  onPressed: widget.onPrevious,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.grey,
-                  ),
-                  child: const Text('Précédent'),
+                const SizedBox(height: 60), // Increased space before the buttons
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly, // Adjusts space evenly around the children
+                  children: <Widget>[
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: widget.onPrevious,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.grey,  // Consistent with the 'Previous' button
+                        ),
+                        child: const Text('Précédent'),
+                      ),
+                    ),
+                    const SizedBox(width: 20),  // Space between the buttons
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (_validateSelection()) {
+                            widget.onNext();
+                          }
+                        },
+                        child: const Text('Suivant'),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
