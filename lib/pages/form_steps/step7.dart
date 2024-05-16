@@ -75,7 +75,7 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
                   buildTextField("Dont remise", widget.vatController),
                   buildTextField("TVA 20%", widget.includingDiscountController),
                   buildTextField("Total TTC", widget.totalPriceController),
-                  const SizedBox(height: 120), // Increased spacing
+                  const SizedBox(height: 40), // Increased spacing
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[

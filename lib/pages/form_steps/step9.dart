@@ -41,10 +41,10 @@ class _SignatoryDocumentPageState extends State<SignatoryDocumentPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Upload Document and Signature"),
+        title: const Text("Photo et signature"),
         automaticallyImplyLeading: false,
       ),
-      body: GestureDetector(
+      body: GestureDetector( 
         behavior: HitTestBehavior.opaque,
         onTap: () => FocusScope.of(context).unfocus(),
         child: Form(
@@ -84,7 +84,7 @@ class _SignatoryDocumentPageState extends State<SignatoryDocumentPage> {
                         child: const Text('Précédent'),
                       ),
                     ),
-                    SizedBox(width: 20),  // Add spacing between the buttons
+                    const SizedBox(width: 20),  // Add spacing between the buttons
                     SizedBox(
                       width: 150,
                       child: ElevatedButton(
@@ -93,7 +93,7 @@ class _SignatoryDocumentPageState extends State<SignatoryDocumentPage> {
                             widget.onNext();
                           }
                         },
-                        child: const Text('Suivant'),
+                        child: const Text('Terminé'),
                       ),
                     ),
                   ],
