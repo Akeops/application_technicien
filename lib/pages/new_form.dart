@@ -137,7 +137,6 @@ class MultiStepFormState extends State<MultiStepForm> {
     _nameController.text = prefs.getString('nameController') ?? '';
     _qualityController.text = prefs.getString('qualityController') ?? '';
     _civilityController.text = prefs.getString('civilityController') ?? '';
-    _signatoryInformationController.text = prefs.getString('signatoryinformation') ?? '';
   }
 
   void _nextPage() {
@@ -209,7 +208,6 @@ class MultiStepFormState extends State<MultiStepForm> {
     request.fields['vat'] = _vatController.text;
     request.fields['includingDiscount'] = _includingDiscountController.text;
     request.fields['totalPrice'] = _totalPriceController.text;
-    request.fields['signatoryInformation'] = _signatoryInformationController.text;
     request.fields['nameController'] = _nameController.text;
     request.fields['qualityController'] = _qualityController.text;
     request.fields['civilityController'] = _civilityController.text;
@@ -268,7 +266,6 @@ class MultiStepFormState extends State<MultiStepForm> {
     await prefs.setString('vat', _vatController.text);
     await prefs.setString('includingDiscount', _includingDiscountController.text);
     await prefs.setString('totalPrice', _totalPriceController.text);
-    await prefs.setString('signatoryInformationController', _signatoryInformationController.text);
     await prefs.setString('nameController', _nameController.text);
     await prefs.setString('qualityController', _qualityController.text);
     await prefs.setString('civilityController', _civilityController.text);
@@ -318,8 +315,7 @@ class MultiStepFormState extends State<MultiStepForm> {
           SignatoryInformation(formKey: _formKeys[7],
           nameController: _nameController,
           qualityController: _qualityController,
-          civilityController: _civilityController,
-          signatoryInformationController: _signatoryInformationController, 
+          civilityController: _civilityController, 
           onNext: _nextPage, onPrevious: _previousPage,),
           SignatoryDocumentPage(
             formKey: _formKeys[8],

@@ -6,7 +6,6 @@ class SignatoryInformation extends StatefulWidget {
   final TextEditingController civilityController;
   final TextEditingController nameController;
   final TextEditingController qualityController;
-  final TextEditingController signatoryInformationController;
   final VoidCallback onNext;
   final VoidCallback onPrevious;
 
@@ -16,7 +15,6 @@ class SignatoryInformation extends StatefulWidget {
     required this.civilityController,
     required this.nameController,
     required this.qualityController,
-    required this.signatoryInformationController,
     required this.onNext,
     required this.onPrevious,
   });
@@ -42,6 +40,9 @@ class _SignatoryInformationState extends State<SignatoryInformation> {
     setState(() {
       _selectedCivility = prefs.getString('selectedCivility') ?? _civilityOptions.first;
       _selectedQuality = prefs.getString('selectedQuality') ?? _qualityOptions.first;
+      widget.civilityController.text = _selectedCivility!;
+      widget.qualityController.text = _selectedQuality!;
+      widget.nameController.text = prefs.getString('signatoryName') ?? '';
     });
   }
 
@@ -49,6 +50,7 @@ class _SignatoryInformationState extends State<SignatoryInformation> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('selectedCivility', _selectedCivility ?? _civilityOptions.first);
     await prefs.setString('selectedQuality', _selectedQuality ?? _qualityOptions.first);
+    await prefs.setString('signatoryName', widget.nameController.text);
   }
 
   @override
@@ -69,27 +71,33 @@ class _SignatoryInformationState extends State<SignatoryInformation> {
               children: <Widget>[
                 buildDropdown(_selectedCivility, _civilityOptions, 'Select Civility', (newValue) {
                   setState(() => _selectedCivility = newValue);
+                  widget.civilityController.text = newValue!;
                   _savePreferences();
                 }),
                 const SizedBox(height: 20),
                 TextFormField(
-                  controller: widget.signatoryInformationController,
+                  controller: widget.nameController,
                   decoration: const InputDecoration(
                     labelText: 'Nom*',
                     border: OutlineInputBorder(),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter signatory details';
+                      return 'Please enter signatory name';
                     }
                     return null;
+                  },
+                  onChanged: (value) {
+                    _savePreferences();
                   },
                 ),
                 const SizedBox(height: 20),
                 buildDropdown(_selectedQuality, _qualityOptions, 'Select Quality', (newValue) {
                   setState(() => _selectedQuality = newValue);
+                  widget.qualityController.text = newValue!;
                   _savePreferences();
                 }),
+                //const SizedBox(height: 20),
                 const SizedBox(height: 80), // Increased spacing for visual separation
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -97,7 +105,10 @@ class _SignatoryInformationState extends State<SignatoryInformation> {
                     SizedBox(
                       width: 150,
                       child: ElevatedButton(
-                        onPressed: widget.onPrevious,
+                        onPressed: () {
+                          _savePreferences();
+                          widget.onPrevious();
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.grey,
                         ),
@@ -109,6 +120,7 @@ class _SignatoryInformationState extends State<SignatoryInformation> {
                       child: ElevatedButton(
                         onPressed: () {
                           if (widget.formKey.currentState!.validate()) {
+                            _savePreferences();
                             widget.onNext();
                           }
                         },
