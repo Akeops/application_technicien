@@ -1,19 +1,23 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-//import 'package:shared_preferences/shared_preferences.dart';
 import 'package:signature/signature.dart';
 
 class SignatoryDocumentPage extends StatefulWidget {
   final GlobalKey<FormState> formKey;
-  final VoidCallback onNext;
   final VoidCallback onPrevious;
+  final Future<bool> Function() uploadData;
+  final SignatureController signatureController;
+  final Function(File) setImage;
 
-  const SignatoryDocumentPage({
+  SignatoryDocumentPage({
     super.key,
     required this.formKey,
-    required this.onNext,
     required this.onPrevious,
+    required this.uploadData,
+    required this.signatureController,
+    required this.setImage,
   });
 
   @override
@@ -21,10 +25,6 @@ class SignatoryDocumentPage extends StatefulWidget {
 }
 
 class _SignatoryDocumentPageState extends State<SignatoryDocumentPage> {
-  final SignatureController _signatureController = SignatureController(
-    penStrokeWidth: 5,
-    penColor: Colors.black,
-  );
   File? _image;
   final ImagePicker _picker = ImagePicker();
 
@@ -33,7 +33,39 @@ class _SignatoryDocumentPageState extends State<SignatoryDocumentPage> {
     if (pickedFile != null) {
       setState(() {
         _image = File(pickedFile.path);
+        widget.setImage(_image!);  // Set the image in the parent state
       });
+    }
+  }
+
+  Future<void> _submitForm() async {
+    // Ensure image is taken
+    if (_image == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please take a photo')),
+      );
+      return;
+    }
+
+    // Ensure signature is captured
+    final Uint8List? signatureData = await widget.signatureController.toPngBytes();
+    if (signatureData == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please provide a signature')),
+      );
+      return;
+    }
+
+    // Debugging prints
+    print("Signature data captured successfully");
+
+    // Pass the image and signature data to the upload function
+    if (await widget.uploadData()) {
+      Navigator.pushReplacementNamed(context, '/homepage');  // Navigate on success
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Failed to submit the form'))
+      );
     }
   }
 
@@ -41,10 +73,10 @@ class _SignatoryDocumentPageState extends State<SignatoryDocumentPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Photo et signature"),
+        title: const Text("Photo and Signature"),
         automaticallyImplyLeading: false,
       ),
-      body: GestureDetector( 
+      body: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: () => FocusScope.of(context).unfocus(),
         child: Form(
@@ -61,13 +93,13 @@ class _SignatoryDocumentPageState extends State<SignatoryDocumentPage> {
                 ),
                 const SizedBox(height: 20),
                 Signature(
-                  controller: _signatureController,
+                  controller: widget.signatureController,
                   height: 200,
                   backgroundColor: Colors.grey[200]!,
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: () => _signatureController.clear(),
+                  onPressed: () => widget.signatureController.clear(),
                   child: const Text('Clear Signature'),
                 ),
                 const SizedBox(height: 40),
@@ -81,19 +113,15 @@ class _SignatoryDocumentPageState extends State<SignatoryDocumentPage> {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.grey,
                         ),
-                        child: const Text('Précédent'),
+                        child: const Text('Previous'),
                       ),
                     ),
                     const SizedBox(width: 20),  // Add spacing between the buttons
                     SizedBox(
                       width: 150,
                       child: ElevatedButton(
-                        onPressed: () {
-                          if (widget.formKey.currentState!.validate()) {
-                            widget.onNext();
-                          }
-                        },
-                        child: const Text('Terminé'),
+                        onPressed: _submitForm,
+                        child: const Text('Done'),
                       ),
                     ),
                   ],
