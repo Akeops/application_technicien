@@ -99,12 +99,12 @@ class _SignatoryDocumentPageState extends State<SignatoryDocumentPage> {
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: () => widget.signatureController.clear(),
+                  onPressed: () => widget.signatureController.clear(), 
                   child: const Text('Clear Signature'),
                 ),
                 const SizedBox(height: 40),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly, 
                   children: <Widget>[
                     SizedBox(
                       width: 150,
@@ -131,6 +131,6 @@ class _SignatoryDocumentPageState extends State<SignatoryDocumentPage> {
           ),
         ),
       ),
-    );
+    ); 
   }
 }

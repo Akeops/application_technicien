@@ -1,28 +1,27 @@
-import 'package:application_tacteo/pages/new_form.dart';
 import 'package:application_tacteo/pages/form_state_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-// ignore: constant_identifier_names
 
 class HomePage extends StatelessWidget {
   final Color backgroundColor;
-  
 
   HomePage({this.backgroundColor = Colors.amber});
 
   @override
   Widget build(BuildContext context) {
-    // Bloquer l'orientation de l'appareil en mode portrait
+    // Lock the device orientation to portrait mode
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    // Style commun pour les boutons
+
+    // Common button style
     final buttonStyle = ElevatedButton.styleFrom(
-      foregroundColor: Colors.black, backgroundColor: Colors.white,
-      minimumSize: const Size(150, 45), // Définit une largeur minimale et une hauteur pour les boutons
-      padding: const EdgeInsets.symmetric(horizontal: 16), // Padding horizontal pour le contenu du bouton
+      foregroundColor: Colors.black,
+      backgroundColor: Colors.white,
+      minimumSize: const Size(150, 45), // Minimum width and height for buttons
+      padding: const EdgeInsets.symmetric(horizontal: 16), // Horizontal padding for button content
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
         side: const BorderSide(color: Colors.white, width: 2.0),
@@ -33,13 +32,13 @@ class HomePage extends StatelessWidget {
       builder: (context, constraints) {
         return Scaffold(
           appBar: AppBar(title: const Text('APPLICATION TECHNICIEN')),
-          body: Center( 
+          body: Center(
             child: Container(
               decoration: const BoxDecoration(
                 color: Colors.black,
                 image: DecorationImage(
                   image: AssetImage('assets/Tacteo_CB.png'),
-                  fit: BoxFit.fitWidth, 
+                  fit: BoxFit.fitWidth,
                   alignment: Alignment(0.0, -0.6),
                 ),
               ),
@@ -49,15 +48,13 @@ class HomePage extends StatelessWidget {
                   const SizedBox(height: 20), // Adds spacing between the text and the first button
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[ 
+                    children: <Widget>[
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: ElevatedButton(
                           onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(builder: (context) => MultiStepForm())
-                              );
-                          }, 
+                            Navigator.pushNamed(context, '/form');
+                          },
                           style: buttonStyle,
                           child: const Text('Reprendre'),
                         ),
@@ -67,11 +64,8 @@ class HomePage extends StatelessWidget {
                         child: ElevatedButton(
                           onPressed: () {
                             Provider.of<myFormState>(context, listen: false).resetForm();
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => MultiStepForm(key: UniqueKey())),
-                            );
-                          }, 
+                            Navigator.pushNamed(context, '/form'); 
+                          },
                           style: buttonStyle,
                           child: const Text('Nouveau'),
                         ),
@@ -83,11 +77,7 @@ class HomePage extends StatelessWidget {
             ),
           ),
         );
-      }
+      },
     );
   }
 }
-
-
-
-

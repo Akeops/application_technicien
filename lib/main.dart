@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'pages/home_page.dart';
 import 'pages/form_state_storage.dart';
-import 'package:provider/provider.dart';
-//import 'package:google_fonts/google_fonts.dart';
-// ignore: constant_identifier_names
+import 'pages/new_form.dart'; // Import your form page
+
+// Define your color constant
 const d_white = Color(0xFFFFFFFF);
 
 void main() {
@@ -17,26 +18,27 @@ void main() {
 
 class MyApp extends StatelessWidget {
   @override
-   Widget build(BuildContext context) {
+  Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Tacteo application',
+      title: 'Tacteo Application',
       theme: ThemeData(
-        primarySwatch: Colors.green, // Utilise un ensemble préconçu de nuances de vert
-        primaryColor: d_white, // Utilise la couleur personnalisée pour les éléments primaires
+        primarySwatch: Colors.green,
+        primaryColor: d_white,
         elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ElevatedButton.styleFrom(
-          textStyle: const TextStyle(fontSize: 20),
-          foregroundColor: Colors.white, backgroundColor: Colors.black,  // Définit la couleur du texte pour tous les ElevatedButtons
+          style: ElevatedButton.styleFrom(
+            textStyle: const TextStyle(fontSize: 20),
+            foregroundColor: Colors.white,
+            backgroundColor: Colors.black,
+          ),
         ),
       ),
-      ),
-      
-      home: HomePage(),
-      );
+      initialRoute: '/',
+      routes: {
+        '/': (context) => HomePage(),
+        '/form': (context) => MultiStepForm(),
+        // Add other routes here if needed
+      },
+    );
   }
 }
-
-
-
-

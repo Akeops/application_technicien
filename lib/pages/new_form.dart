@@ -1,12 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
-import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
-import 'package:http_parser/http_parser.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
-import 'package:signature/signature.dart';
+import 'package:provider/provider.dart';
 import 'form_steps/step1.dart';
 import 'form_steps/step2.dart';
 import 'form_steps/step3.dart';
@@ -16,9 +11,14 @@ import 'form_steps/step6.dart';
 import 'form_steps/step7.dart';
 import 'form_steps/step8.dart';
 import 'form_steps/step9.dart';
+import 'package:signature/signature.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 
 class MultiStepForm extends StatefulWidget {
-  const MultiStepForm({super.key});
+  const MultiStepForm({Key? key}) : super(key: key);
 
   @override
   MultiStepFormState createState() => MultiStepFormState();
@@ -60,12 +60,12 @@ class MultiStepFormState extends State<MultiStepForm> {
   );
 
   File? _image;
+  final ImagePicker _picker = ImagePicker();
 
   @override
   void initState() {
     super.initState();
     _loadSavedStep();
-    testNetworkRequest();  // Test network connectivity
   }
 
   @override
@@ -95,7 +95,7 @@ class MultiStepFormState extends State<MultiStepForm> {
     _vatController.dispose();
     _includingDiscountController.dispose();
     _totalPriceController.dispose();
-    _signatoryInformationController.dispose(); 
+    _signatoryInformationController.dispose();
     _nameController.dispose();
     _qualityController.dispose();
     _civilityController.dispose();
@@ -108,7 +108,9 @@ class MultiStepFormState extends State<MultiStepForm> {
     _loadDataFromPrefs(prefs);
     selectedOption1 = prefs.getString('selectedOption1') ?? "Default Option";
     if (savedStep != 0) {
-      _pageController.jumpToPage(savedStep);
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _pageController.jumpToPage(savedStep);
+      });
     }
   }
 
@@ -139,7 +141,7 @@ class MultiStepFormState extends State<MultiStepForm> {
   }
 
   void _nextPage() {
-    if (_pageController.hasClients && _pageController.page!.toInt() > _formKeys.length - 1) {
+    if (_pageController.hasClients && _pageController.page!.toInt() < _formKeys.length - 1) {
       _pageController.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.easeIn).then((_) {
         _saveCurrentStep();
       });
@@ -161,98 +163,91 @@ class MultiStepFormState extends State<MultiStepForm> {
     await _saveFormData(prefs);
   }
 
-  Future<void> testNetworkRequest() async {
-  try {
-    var response = await http.get(Uri.parse('https://www.google.com'));
-    if (response.statusCode == 200) {
-      print('Network request successful');
-    } else {
-      print('Network request failed with status: ${response.statusCode}');
-    }
-  } catch (e) {
-    print('An error occurred: $e');
-  }
-}
-
   Future<bool> _uploadData() async {
-  if (!_formKeys.last.currentState!.validate()) {
-    print("Form is not valid.");
-    return false;
-  }
-
-  // Generate signature data
-  final Uint8List? signatureData = await _signatureController.toPngBytes();
-  if (signatureData == null) {
-    print("Signature data is missing.");
-    return false;
-  }
-
-  // Check if image is set
-  if (_image == null) {
-    print("Image is missing.");
-    return false;
-  }
-
-  Uri url = Uri.parse('https://yourbackend.example.com/upload');
-  var request = http.MultipartRequest('POST', url);
-
-  // Add all form fields
-  request.fields['dateOfBirth'] = _dateController.text;
-  request.fields['time'] = _timeController.text;
-  request.fields['intervention'] = _interventionController.text;
-  request.fields['codeClient'] = _codeClientController.text;
-  request.fields['designation'] = _designationController.text;
-  request.fields['siret'] = _siretController.text;
-  request.fields['mail'] = _mailController.text;
-  request.fields['phoneNumber'] = _phoneNumberController.text;
-  request.fields['address'] = _addressController.text;
-  request.fields['additionalAddress'] = _additionalAddressController.text;
-  request.fields['city'] = _cityController.text;
-  request.fields['postalCode'] = _postalCodeController.text;
-  request.fields['description'] = _interventionDecriptionController.text;
-  request.fields['softwareInformation'] = _softwareInformationController.text;
-  request.fields['billing'] = _billingController.text;
-  request.fields['totalWithoutTaxes'] = _totalWithoutTaxesController.text;
-  request.fields['vat'] = _vatController.text;
-  request.fields['includingDiscount'] = _includingDiscountController.text;
-  request.fields['totalPrice'] = _totalPriceController.text;
-  request.fields['signatoryInformation'] = _signatoryInformationController.text;
-  request.fields['nameController'] = _nameController.text;
-  request.fields['qualityController'] = _qualityController.text;
-  request.fields['civilityController'] = _civilityController.text;
-
-  request.files.add(http.MultipartFile.fromBytes(
-    'image',
-    await _image!.readAsBytes(),
-    filename: 'photo.jpg',
-  ));
-
-  request.files.add(http.MultipartFile.fromBytes(
-    'signature',
-    signatureData,
-    filename: 'signature.png',
-    contentType: MediaType('image', 'png'),
-  ));
-
-  try {
-    var response = await request.send();
-    var responseBody = await response.stream.bytesToString();
-
-    print('Response status: ${response.statusCode}');
-    print('Response body: $responseBody');
-
-    if (response.statusCode == 200) {
-      print('Upload successful');
-      return true;
-    } else {
-      print('Upload failed with status: ${response.statusCode}');
+    if (!_formKeys.last.currentState!.validate()) {
+      print("Form is not valid.");
       return false;
     }
-  } catch (e) {
-    print('An error occurred while uploading: $e');
-    return false;
+
+    // Generate signature data
+    final Uint8List? signatureData = await _signatureController.toPngBytes();
+    print("Generated signatureData: $signatureData");
+    
+    if (signatureData == null) {
+      print("Signature data is missing.");
+      return false;
+    }
+
+    // Check if image is set
+    print("_image is: $_image");
+    if (_image == null) {
+      print("Image is missing.");
+      return false;
+    }
+
+    // Replace this URL with your actual backend URL
+    Uri url = Uri.parse('https://yourbackend.example.com/upload');  
+    var request = http.MultipartRequest('POST', url);
+
+    // Add all form fields
+    request.fields['dateOfBirth'] = _dateController.text;
+    request.fields['time'] = _timeController.text;
+    request.fields['intervention'] = _interventionController.text;
+    request.fields['codeClient'] = _codeClientController.text;
+    request.fields['designation'] = _designationController.text;
+    request.fields['siret'] = _siretController.text;
+    request.fields['mail'] = _mailController.text;
+    request.fields['phoneNumber'] = _phoneNumberController.text;
+    request.fields['address'] = _addressController.text;
+    request.fields['additionalAddress'] = _additionalAddressController.text;
+    request.fields['city'] = _cityController.text;
+    request.fields['postalCode'] = _postalCodeController.text;
+    request.fields['description'] = _interventionDecriptionController.text;
+    request.fields['softwareInformation'] = _softwareInformationController.text;
+    request.fields['billing'] = _billingController.text;
+    request.fields['totalWithoutTaxes'] = _totalWithoutTaxesController.text;
+    request.fields['vat'] = _vatController.text;
+    request.fields['includingDiscount'] = _includingDiscountController.text;
+    request.fields['totalPrice'] = _totalPriceController.text;
+    request.fields['signatoryInformation'] = _signatoryInformationController.text;
+    request.fields['nameController'] = _nameController.text;
+    request.fields['qualityController'] = _qualityController.text;
+    request.fields['civilityController'] = _civilityController.text;
+
+    // Add image file
+    request.files.add(http.MultipartFile.fromBytes(
+      'image',
+      await _image!.readAsBytes(),
+      filename: 'photo.jpg',
+    ));
+
+    // Add signature file
+    request.files.add(http.MultipartFile.fromBytes(
+      'signature',
+      signatureData,
+      filename: 'signature.png',
+      contentType: MediaType('image', 'png'),
+    ));
+
+    try {
+      var response = await request.send();
+      var responseBody = await response.stream.bytesToString();
+
+      print('Response status: ${response.statusCode}');
+      print('Response body: $responseBody');
+
+      if (response.statusCode == 200) {
+        print('Upload successful');
+        return true;
+      } else {
+        print('Upload failed with status: ${response.statusCode}');
+        return false;
+      }
+    } catch (e) {
+      print('An error occurred while uploading: $e');
+      return false;
+    }
   }
-}
 
   Future<void> _saveFormData(SharedPreferences prefs) async {
     await prefs.setString('dateOfBirth', _dateController.text);
