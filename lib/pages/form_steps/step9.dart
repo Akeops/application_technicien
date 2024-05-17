@@ -42,7 +42,7 @@ class _SignatoryDocumentPageState extends State<SignatoryDocumentPage> {
     // Ensure image is taken
     if (_image == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please take a photo')),
+        const SnackBar(content: Text("S'il vous plaît, prenez une photo")),
       );
       return;
     }
@@ -51,7 +51,7 @@ class _SignatoryDocumentPageState extends State<SignatoryDocumentPage> {
     final Uint8List? signatureData = await widget.signatureController.toPngBytes();
     if (signatureData == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please provide a signature')),
+        const SnackBar(content: Text('Veuillez fournir une signature')),
       );
       return;
     }
@@ -64,7 +64,7 @@ class _SignatoryDocumentPageState extends State<SignatoryDocumentPage> {
       Navigator.pushReplacementNamed(context, '/homepage');  // Navigate on success
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Failed to submit the form'))
+        const SnackBar(content: Text("Echec lors de l'envoi du formulaire."))
       );
     }
   }
@@ -89,7 +89,7 @@ class _SignatoryDocumentPageState extends State<SignatoryDocumentPage> {
                 if (_image != null) Image.file(_image!),
                 ElevatedButton(
                   onPressed: _getImage,
-                  child: const Text('Take Picture'),
+                  child: const Text('Prendre une photo'),
                 ),
                 const SizedBox(height: 20),
                 Signature(
@@ -100,7 +100,7 @@ class _SignatoryDocumentPageState extends State<SignatoryDocumentPage> {
                 const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () => widget.signatureController.clear(), 
-                  child: const Text('Clear Signature'),
+                  child: const Text('Nouvelle signature'),
                 ),
                 const SizedBox(height: 40),
                 Row(
@@ -121,7 +121,7 @@ class _SignatoryDocumentPageState extends State<SignatoryDocumentPage> {
                       width: 150,
                       child: ElevatedButton(
                         onPressed: _submitForm,
-                        child: const Text('Done'),
+                        child: const Text('Envoyer'),
                       ),
                     ),
                   ],
