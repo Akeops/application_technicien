@@ -6,6 +6,7 @@ import 'pages/form_state_storage.dart';
 import 'pages/new_form.dart';
 import 'pages/auth/login_page.dart';
 import 'pages/auth/register_page.dart';
+//import io.flutter.embedding.android.FlutterActivity;
 
 // Define your color constant
 const d_white = Color(0xFFFFFFFF);
@@ -17,8 +18,9 @@ void main() async {
   
   runApp(
     ChangeNotifierProvider(
+
       create: (context) => myFormState(),
-      child: MyApp(initialRoute: token == null ? '/login' : '/home'),
+      child: MyApp(initialRoute: token == null ? '/home' : '/home'),
     ),
   );
 }

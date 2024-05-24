@@ -17,7 +17,7 @@ class SignatoryDocumentPage extends StatefulWidget {
     required this.onPrevious,
     required this.uploadData,
     required this.signatureController,
-    required this.setImage,
+    required this.setImage, required Future<void> Function() pickImage, File? image,
   });
 
   @override

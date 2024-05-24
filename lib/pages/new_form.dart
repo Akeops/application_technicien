@@ -35,7 +35,7 @@ class MultiStepFormState extends State<MultiStepForm> {
   final TextEditingController _designationController = TextEditingController();
   final TextEditingController _siretController = TextEditingController();
   final TextEditingController _mailController = TextEditingController();
-  final TextEditingController _phoneNumberController = TextEditingController(); 
+  final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _additionalAddressController = TextEditingController();
   final TextEditingController _cityController = TextEditingController();
@@ -80,7 +80,7 @@ class MultiStepFormState extends State<MultiStepForm> {
     _interventionController.dispose();
     _codeClientController.dispose();
     _designationController.dispose();
-    _siretController.dispose(); 
+    _siretController.dispose();
     _mailController.dispose();
     _phoneNumberController.dispose();
     _addressController.dispose();
@@ -107,6 +107,12 @@ class MultiStepFormState extends State<MultiStepForm> {
     int savedStep = prefs.getInt('currentStep') ?? 0;
     _loadDataFromPrefs(prefs);
     selectedOption1 = prefs.getString('selectedOption1') ?? "Default Option";
+    String? imagePath = prefs.getString('repriseImagePath');
+    if (imagePath != null) {
+      setState(() {
+        _image = File(imagePath);
+      });
+    }
     if (savedStep != 0) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _pageController.jumpToPage(savedStep);
@@ -133,7 +139,7 @@ class MultiStepFormState extends State<MultiStepForm> {
     _vatController.text = prefs.getString('vat') ?? '';
     _includingDiscountController.text = prefs.getString('includingDiscount') ?? '';
     _totalPriceController.text = prefs.getString('totalPrice') ?? '';
-    _signatoryInformationController.text = prefs.getString('signatoryinformation') ?? ''; 
+    _signatoryInformationController.text = prefs.getString('signatoryinformation') ?? '';
     _nameController.text = prefs.getString('nameController') ?? '';
     _qualityController.text = prefs.getString('qualityController') ?? '';
     _civilityController.text = prefs.getString('civilityController') ?? '';
@@ -157,9 +163,20 @@ class MultiStepFormState extends State<MultiStepForm> {
 
   void _saveCurrentStep() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    int currentPage = _pageController.page!.toInt(); 
+    int currentPage = _pageController.page!.toInt();
     await prefs.setInt('currentStep', currentPage);
     await _saveFormData(prefs);
+  }
+
+  Future<void> _pickImage() async {
+    final XFile? pickedFile = await _picker.pickImage(source: ImageSource.camera);
+    if (pickedFile != null) {
+      setState(() {
+        _image = File(pickedFile.path);
+      });
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString('repriseImagePath', pickedFile.path);
+    }
   }
 
   Future<bool> _uploadData() async {
@@ -168,27 +185,20 @@ class MultiStepFormState extends State<MultiStepForm> {
       return false;
     }
 
-    // Generate signature data
     final Uint8List? signatureData = await _signatureController.toPngBytes();
-    print("Generated signatureData: $signatureData");
-    
     if (signatureData == null) {
       print("Signature data is missing.");
       return false;
     }
 
-    // Check if image is set
-    print("_image is: $_image");
     if (_image == null) {
       print("Image is missing.");
       return false;
     }
 
-    // Replace this URL with your actual backend URL
-    Uri url = Uri.parse('https://yourbackend.example.com/upload');  
+    Uri url = Uri.parse('https://yourbackend.example.com/upload');
     var request = http.MultipartRequest('POST', url);
 
-    // Add all form fields
     request.fields['dateOfBirth'] = _dateController.text;
     request.fields['time'] = _timeController.text;
     request.fields['intervention'] = _interventionController.text;
@@ -212,14 +222,12 @@ class MultiStepFormState extends State<MultiStepForm> {
     request.fields['qualityController'] = _qualityController.text;
     request.fields['civilityController'] = _civilityController.text;
 
-    // Add image file
     request.files.add(http.MultipartFile.fromBytes(
       'image',
       await _image!.readAsBytes(),
       filename: 'photo.jpg',
     ));
 
-    // Add signature file
     request.files.add(http.MultipartFile.fromBytes(
       'signature',
       signatureData,
@@ -230,9 +238,6 @@ class MultiStepFormState extends State<MultiStepForm> {
     try {
       var response = await request.send();
       var responseBody = await response.stream.bytesToString();
-
-      print('Response status: ${response.statusCode}');
-      print('Response body: $responseBody');
 
       if (response.statusCode == 200) {
         print('Upload successful');
@@ -293,9 +298,9 @@ class MultiStepFormState extends State<MultiStepForm> {
           StepAge(
             formKey: _formKeys[2],
             currentStep: 2,
-            codeClientController: _codeClientController, 
+            codeClientController: _codeClientController,
             designationController: _designationController,
-            siretController: _siretController,   
+            siretController: _siretController,
             mailController: _mailController,
             phoneNumberController: _phoneNumberController,
             addressController: _addressController,
@@ -307,26 +312,34 @@ class MultiStepFormState extends State<MultiStepForm> {
           StepDescriptionIntervention(formKey: _formKeys[3], interventionDecriptionController: _interventionDecriptionController, onNext: _nextPage, onPrevious: _previousPage),
           StepSoftwareInformation(formKey: _formKeys[4], softwareInformationController: _softwareInformationController, onNext: _nextPage, onPrevious: _previousPage),
           StepBilling(formKey: _formKeys[5], billingController: _billingController, onNext: _nextPage, onPrevious: _previousPage),
-          ConfirmationPage(formKey: _formKeys[6],
-          totalWithoutTaxesController: _totalWithoutTaxesController,
-          vatController: _vatController,
-          includingDiscountController: _includingDiscountController,
-          totalPriceController: _totalPriceController, onNext: _nextPage, onPrevious: _previousPage, selectedOption1: selectedOption1),
-          SignatoryInformation(formKey: _formKeys[7],
-          nameController: _nameController,
-          qualityController: _qualityController,
-          civilityController: _civilityController, 
-          onNext: _nextPage, onPrevious: _previousPage,),
+          ConfirmationPage(
+            formKey: _formKeys[6],
+            totalWithoutTaxesController: _totalWithoutTaxesController,
+            vatController: _vatController,
+            includingDiscountController: _includingDiscountController,
+            totalPriceController: _totalPriceController,
+            onNext: _nextPage,
+            onPrevious: _previousPage,
+            selectedOption1: selectedOption1),
+          SignatoryInformation(
+            formKey: _formKeys[7],
+            nameController: _nameController,
+            qualityController: _qualityController,
+            civilityController: _civilityController,
+            onNext: _nextPage,
+            onPrevious: _previousPage,),
           SignatoryDocumentPage(
             formKey: _formKeys[8],
             onPrevious: _previousPage,
             uploadData: _uploadData,
-            signatureController: _signatureController,  // Pass the signature controller
+            signatureController: _signatureController,
             setImage: (File image) {
               setState(() {
                 _image = image;
               });
             },
+            pickImage: _pickImage,
+            image: _image,
           )
         ],
       ),

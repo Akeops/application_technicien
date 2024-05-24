@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'dart:io';
 
 class StepIntervention extends StatefulWidget {
   final GlobalKey<FormState> formKey;
-  late final TextEditingController interventionController;
+  final TextEditingController interventionController;
   final VoidCallback onNext;
   final VoidCallback onPrevious;
 
@@ -28,11 +31,14 @@ class _StepInterventionState extends State<StepIntervention> {
     "Livraison": false,
     "Pré-visite": false,
   };
+  File? _image;
+  final ImagePicker _picker = ImagePicker();
 
   @override
   void initState() {
     super.initState();
     _loadChoices();
+    _loadImage();
   }
 
   Future<void> _loadChoices() async {
@@ -45,11 +51,39 @@ class _StepInterventionState extends State<StepIntervention> {
     });
   }
 
-  void _toggleChoice(String key) {
+  Future<void> _loadImage() async {
+    final prefs = await SharedPreferences.getInstance();
+    String? imagePath = prefs.getString('repriseImagePath');
+    if (imagePath != null) {
+      setState(() {
+        _image = File(imagePath);
+      });
+    }
+  }
+
+  Future<void> _requestPermissions() async {
+    var status = await Permission.camera.status;
+    if (!status.isGranted) {
+      await Permission.camera.request();
+    }
+  }
+
+  Future<void> _toggleChoice(String key) async {
     setState(() {
       _choices[key] = !_choices[key]!;
     });
-    _saveChoices();
+    await _saveChoices();
+
+    if (key == "Reprise matériel(s)" && _choices[key]!) {
+      await _requestPermissions();
+      await _pickImage();
+    } else if (key == "Reprise matériel(s)" && !_choices[key]!) {
+      setState(() {
+        _image = null;
+      });
+      final prefs = await SharedPreferences.getInstance();
+      prefs.remove('repriseImagePath');
+    }
   }
 
   Future<void> _saveChoices() async {
@@ -57,6 +91,21 @@ class _StepInterventionState extends State<StepIntervention> {
     _choices.forEach((key, value) {
       prefs.setBool(key, value);
     });
+  }
+
+  Future<void> _pickImage() async {
+    try {
+      final pickedFile = await _picker.pickImage(source: ImageSource.camera);
+      if (pickedFile != null) {
+        setState(() {
+          _image = File(pickedFile.path);
+        });
+        final prefs = await SharedPreferences.getInstance();
+        prefs.setString('repriseImagePath', _image!.path);
+      }
+    } catch (e) {
+      print('Error picking image: $e');
+    }
   }
 
   bool _validateSelection() {
@@ -68,11 +117,11 @@ class _StepInterventionState extends State<StepIntervention> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Type d'intervention"),
-        automaticallyImplyLeading: false,  // Removes the default back button
+        automaticallyImplyLeading: false,
       ),
       body: Form(
         key: widget.formKey,
-        child: Center(
+        child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(24.0),
             child: Column(
@@ -82,25 +131,29 @@ class _StepInterventionState extends State<StepIntervention> {
                   return CheckboxListTile(
                     title: Text(key),
                     value: _choices[key],
-                    onChanged: (bool? value) {
-                      _toggleChoice(key);
+                    onChanged: (bool? value) async {
+                      await _toggleChoice(key);
                     },
                   );
-                }),
-                const SizedBox(height: 60), // Increased space before the buttons
+                }).toList(),
+                if (_image != null) ...[
+                  const SizedBox(height: 20),
+                  Image.file(_image!),
+                ],
+                const SizedBox(height: 60),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly, // Adjusts space evenly around the children
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     Expanded(
                       child: ElevatedButton(
                         onPressed: widget.onPrevious,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.grey,  // Consistent with the 'Previous' button
+                          backgroundColor: Colors.grey,
                         ),
                         child: const Text('Précédent'),
                       ),
                     ),
-                    const SizedBox(width: 20),  // Space between the buttons
+                    const SizedBox(width: 20),
                     Expanded(
                       child: ElevatedButton(
                         onPressed: () {
