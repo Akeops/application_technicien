@@ -9,12 +9,18 @@ class StepIntervention extends StatefulWidget {
   final TextEditingController interventionController;
   final VoidCallback onNext;
   final VoidCallback onPrevious;
+  final Future<void> Function() saveChoices;
+  final Map<String, bool> choices;
+  final void Function(File image) setImage;
 
   StepIntervention({
     required this.formKey,
     required this.interventionController,
     required this.onNext,
     required this.onPrevious,
+    required this.saveChoices,
+    required this.choices,
+    required this.setImage,
   });
 
   @override
@@ -22,38 +28,30 @@ class StepIntervention extends StatefulWidget {
 }
 
 class _StepInterventionState extends State<StepIntervention> {
-  final Map<String, bool> _choices = {
-    "Maintenance": false,
-    "Installation": false,
-    "Formation": false,
-    "Renouvellement": false,
-    "Reprise matériel(s)": false,
-    "Livraison": false,
-    "Pré-visite": false,
-  };
+  late Map<String, bool> _choices;
   File? _image;
   final ImagePicker _picker = ImagePicker();
 
   @override
   void initState() {
     super.initState();
+    _choices = Map<String, bool>.from(widget.choices);
     _loadChoices();
     _loadImage();
   }
 
   Future<void> _loadChoices() async {
     final prefs = await SharedPreferences.getInstance();
-    _choices.forEach((key, value) {
-      bool savedValue = prefs.getBool(key) ?? false;
-      setState(() {
-        _choices[key] = savedValue;
+    setState(() {
+      _choices.forEach((key, value) {
+        _choices[key] = prefs.getBool(key) ?? false;
       });
     });
   }
 
   Future<void> _loadImage() async {
     final prefs = await SharedPreferences.getInstance();
-    String? imagePath = prefs.getString('repriseImagePath');
+    final imagePath = prefs.getString('repriseImagePath');
     if (imagePath != null) {
       setState(() {
         _image = File(imagePath);
@@ -66,13 +64,17 @@ class _StepInterventionState extends State<StepIntervention> {
     if (!status.isGranted) {
       await Permission.camera.request();
     }
+    status = await Permission.storage.status;
+    if (!status.isGranted) {
+      await Permission.storage.request();
+    }
   }
 
   Future<void> _toggleChoice(String key) async {
     setState(() {
       _choices[key] = !_choices[key]!;
     });
-    await _saveChoices();
+    await widget.saveChoices();
 
     if (key == "Reprise matériel(s)" && _choices[key]!) {
       await _requestPermissions();
@@ -86,13 +88,6 @@ class _StepInterventionState extends State<StepIntervention> {
     }
   }
 
-  Future<void> _saveChoices() async {
-    final prefs = await SharedPreferences.getInstance();
-    _choices.forEach((key, value) {
-      prefs.setBool(key, value);
-    });
-  }
-
   Future<void> _pickImage() async {
     try {
       final pickedFile = await _picker.pickImage(source: ImageSource.camera);
@@ -102,6 +97,7 @@ class _StepInterventionState extends State<StepIntervention> {
         });
         final prefs = await SharedPreferences.getInstance();
         prefs.setString('repriseImagePath', _image!.path);
+        widget.setImage(_image!);
       }
     } catch (e) {
       print('Error picking image: $e');
@@ -109,7 +105,8 @@ class _StepInterventionState extends State<StepIntervention> {
   }
 
   bool _validateSelection() {
-    return _choices.values.any((value) => value);
+    return _choices.values.any((value) => value) &&
+           (_choices["Reprise matériel(s)"]! ? _image != null : true);
   }
 
   @override
@@ -159,6 +156,12 @@ class _StepInterventionState extends State<StepIntervention> {
                         onPressed: () {
                           if (_validateSelection()) {
                             widget.onNext();
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Please take a picture for "Reprise matériel(s)".'),
+                              ),
+                            );
                           }
                         },
                         child: const Text('Suivant'),
