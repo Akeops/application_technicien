@@ -70,7 +70,8 @@ class MultiStepFormState extends State<MultiStepForm> {
     "Pré-visite": false,
   };
 
-  String selectedOption1 = "Default value";
+  String selectedOption1 = "BAB";
+  String selectedOption2 = "Oui";
 
   @override
   void initState() {
@@ -116,13 +117,14 @@ class MultiStepFormState extends State<MultiStepForm> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int savedStep = prefs.getInt('currentStep') ?? 0;
     _loadDataFromPrefs(prefs);
-    selectedOption1 = prefs.getString('selectedOption1') ?? "Default value";
-    String? imagePath = prefs.getString('repriseImagePath');
-    if (imagePath != null) {
-      setState(() {
+    setState(() {
+      selectedOption1 = prefs.getString('selectedOption1') ?? "BAB";
+      selectedOption2 = prefs.getString('selectedOption2') ?? "Oui";
+      String? imagePath = prefs.getString('repriseImagePath');
+      if (imagePath != null) {
         _image = File(imagePath);
-      });
-    }
+      }
+    });
     if (savedStep != 0) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _pageController.jumpToPage(savedStep);
@@ -149,7 +151,7 @@ class MultiStepFormState extends State<MultiStepForm> {
     _vatController.text = prefs.getString('vat') ?? '';
     _includingDiscountController.text = prefs.getString('includingDiscount') ?? '';
     _totalPriceController.text = prefs.getString('totalPrice') ?? '';
-    _signatoryInformationController.text = prefs.getString('signatoryInformation') ?? ''; 
+    _signatoryInformationController.text = prefs.getString('signatoryInformation') ?? '';
     _nameController.text = prefs.getString('nameController') ?? '';
     _qualityController.text = prefs.getString('qualityController') ?? '';
     _civilityController.text = prefs.getString('civilityController') ?? '';
@@ -164,6 +166,14 @@ class MultiStepFormState extends State<MultiStepForm> {
     }
   }
 
+  void _nextPageWithParams(String option1, String option2) {
+    setState(() {
+      selectedOption1 = option1;
+      selectedOption2 = option2;
+    });
+    _nextPage();
+  }
+
   void _previousPage() {
     if (_pageController.hasClients && _pageController.page!.toInt() > 0) {
       _pageController.previousPage(duration: const Duration(milliseconds: 300), curve: Curves.easeIn).then((_) {
@@ -174,7 +184,7 @@ class MultiStepFormState extends State<MultiStepForm> {
 
   void _saveCurrentStep() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    int currentPage = _pageController.page!.toInt(); 
+    int currentPage = _pageController.page!.toInt();
     await prefs.setInt('currentStep', currentPage);
     await _saveFormData();
   }
@@ -280,6 +290,7 @@ class MultiStepFormState extends State<MultiStepForm> {
     await prefs.setString('civilityController', _civilityController.text);
     await prefs.setBool("Reprise matériel(s)", _choices["Reprise matériel(s)"]!);
     await prefs.setString('selectedOption1', selectedOption1);
+    await prefs.setString('selectedOption2', selectedOption2);
 
     // Save image path if "Reprise matériel(s)" is selected
     if (_choices["Reprise matériel(s)"] == true && _image != null) {
@@ -304,26 +315,26 @@ class MultiStepFormState extends State<MultiStepForm> {
         controller: _pageController,
         physics: const NeverScrollableScrollPhysics(),
         children: <Widget>[
-          StepDateOfBirth(formKey: _formKeys[0], dateController: _dateController, onNext: _nextPage,),
+          StepDateOfBirth(formKey: _formKeys[0], dateController: _dateController, onNext: _nextPage),
           StepIntervention(
-            formKey: _formKeys[1], 
-            interventionController: _interventionController, 
-            onNext: _nextPage, 
-            onPrevious: _previousPage, 
+            formKey: _formKeys[1],
+            interventionController: _interventionController,
+            onNext: _nextPage,
+            onPrevious: _previousPage,
             setImage: (File image) {
               setState(() {
                 _image = image;
               });
-            }, 
-            choices: _choices, 
+            },
+            choices: _choices,
             saveChoices: _saveFormData,
           ),
           StepAge(
             formKey: _formKeys[2],
             currentStep: 2,
-            codeClientController: _codeClientController, 
+            codeClientController: _codeClientController,
             designationController: _designationController,
-            siretController: _siretController,   
+            siretController: _siretController,
             mailController: _mailController,
             phoneNumberController: _phoneNumberController,
             addressController: _addressController,
@@ -333,25 +344,43 @@ class MultiStepFormState extends State<MultiStepForm> {
             onNext: _nextPage,
             onPrevious: _previousPage,
           ),
-          StepDescriptionIntervention(formKey: _formKeys[3], interventionDecriptionController: _interventionDecriptionController, onNext: _nextPage, onPrevious: _previousPage),
-          StepSoftwareInformation(formKey: _formKeys[4], softwareInformationController: _softwareInformationController, onNext: _nextPage, onPrevious: _previousPage),
-          StepBilling(formKey: _formKeys[5], billingController: _billingController, onNext: _nextPage, onPrevious: _previousPage),
+          StepDescriptionIntervention(
+            formKey: _formKeys[3],
+            interventionDecriptionController: _interventionDecriptionController,
+            onNext: _nextPage,
+            onPrevious: _previousPage,
+          ),
+          StepSoftwareInformation(
+            formKey: _formKeys[4],
+            softwareInformationController: _softwareInformationController,
+            onNext: _nextPage,
+            onPrevious: _previousPage,
+          ),
+          StepBilling(
+            formKey: _formKeys[5],
+            billingController: _billingController,
+            onNext: _nextPageWithParams,
+            onPrevious: _previousPage,
+            initialSelectedOption1: selectedOption1,
+            initialSelectedOption2: selectedOption2,
+          ),
           ConfirmationPage(
             formKey: _formKeys[6],
             totalWithoutTaxesController: _totalWithoutTaxesController,
             vatController: _vatController,
             includingDiscountController: _includingDiscountController,
-            totalPriceController: _totalPriceController, 
-            onNext: _nextPage, 
-            onPrevious: _previousPage, 
+            totalPriceController: _totalPriceController,
+            onNext: _nextPage,
+            onPrevious: _previousPage,
             selectedOption1: selectedOption1,
+            selectedOption2: selectedOption2,
           ),
           SignatoryInformation(
             formKey: _formKeys[7],
             nameController: _nameController,
             qualityController: _qualityController,
-            civilityController: _civilityController, 
-            onNext: _nextPage, 
+            civilityController: _civilityController,
+            onNext: _nextPage,
             onPrevious: _previousPage,
           ),
           SignatoryDocumentPage(
@@ -378,7 +407,7 @@ class MultiStepFormState extends State<MultiStepForm> {
               }
               return Future.value();
             },
-          )
+          ),
         ],
       ),
     );

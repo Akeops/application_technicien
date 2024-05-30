@@ -55,7 +55,7 @@ class StepAge extends StatelessWidget {
                 buildRow(codeClientController, designationController, 'Code client*', 'Désignation*', isFieldOneRequired: true, isFieldTwoRequired: true),
                 buildTextField(siretController, 'Numéro SIRET*', true),
                 buildRow(mailController, phoneNumberController, 'Mail*', 'Telephone', isFieldOneRequired: true),
-                buildTextField(addressController, 'Adresse', true),
+                buildTextField(addressController, 'Adresse*', true),
                 buildTextField(additionalAddressController, 'Complément d\'adresse'),
                 buildRow(cityController, postalCodeController, 'Ville', 'Code postal', isFieldTwoRequired: false),
                 const SizedBox(height: 80), // Added more space before the buttons

@@ -1,139 +1,136 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-class ConfirmationPage extends StatefulWidget {
+class ConfirmationPage extends StatelessWidget {
   final GlobalKey<FormState> formKey;
   final TextEditingController totalWithoutTaxesController;
   final TextEditingController vatController;
   final TextEditingController includingDiscountController;
   final TextEditingController totalPriceController;
-  String? selectedOption1;  // Allow it to be null
   final VoidCallback onNext;
   final VoidCallback onPrevious;
+  final String selectedOption1;
+  final String selectedOption2;
 
   ConfirmationPage({
-    super.key,
     required this.formKey,
     required this.totalWithoutTaxesController,
-    required this.vatController, 
+    required this.vatController,
     required this.includingDiscountController,
     required this.totalPriceController,
-    this.selectedOption1,
     required this.onNext,
-    required this.onPrevious, 
+    required this.onPrevious,
+    required this.selectedOption1,
+    required this.selectedOption2,
   });
 
   @override
-  _ConfirmationPageState createState() => _ConfirmationPageState();
-}
-
-class _ConfirmationPageState extends State<ConfirmationPage> {
-  double price = 0; // Assuming price calculation is handled elsewhere
-
-  @override
-  void initState() {
-    super.initState();
-    _loadSelectedOption();
-  }
-
-  Future<void> _loadSelectedOption() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? loadedOption = prefs.getString('selectedOption1');
-    if (loadedOption != null && loadedOption != widget.selectedOption1) {
-      setState(() {
-        widget.selectedOption1 = loadedOption;
-      });
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
+    double formFieldWidth = MediaQuery.of(context).size.width * 0.8;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Facturation"),
+        title: const Text("Confirmation"),
         automaticallyImplyLeading: false,
       ),
-      body: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: () {
-          FocusScope.of(context).unfocus();
-        },
-        child: Center(
-          child: SingleChildScrollView(
-            child: Form(
-              key: widget.formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  const SizedBox(height: 20),
-                  Text("Option sélectionné: ${widget.selectedOption1 ?? "Not Selected"}", style: const TextStyle(fontSize: 16)),
-                  const SizedBox(height: 10),
-                  Text("Prix à payer: \$${price.toStringAsFixed(2)}", style: const TextStyle(fontSize: 20)),
-                  const SizedBox(height: 20),
-                  buildTextField("Total HT", widget.totalWithoutTaxesController),
-                  buildTextField("Dont remise", widget.vatController),
-                  buildTextField("TVA 20%", widget.includingDiscountController),
-                  buildTextField("Total TTC", widget.totalPriceController),
-                  const SizedBox(height: 40), // Increased spacing
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      SizedBox(
-                        width: 150,
-                        child: ElevatedButton(
-                          onPressed: widget.onPrevious,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.grey,
-                          ),
-                          child: const Text('Précédent'),
-                        ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Form(
+            key: formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text("Option 1 sélectionnée: $selectedOption1"),
+                const SizedBox(height: 10),
+                Text("Option 2 sélectionnée: $selectedOption2"),
+                const SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10.0),
+                  child: Container(
+                    width: formFieldWidth,
+                    child: TextFormField(
+                      controller: totalWithoutTaxesController,
+                      decoration: const InputDecoration(
+                        labelText: 'Total HT',
+                        border: OutlineInputBorder(),
                       ),
-                      SizedBox(
-                        width: 150,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            if (widget.formKey.currentState!.validate()) {
-                              widget.onNext();
-                            }
-                          },
-                          child: const Text('Suivant'),
-                        ),
-                      ),
-                    ],
+                      validator: (value) => value == null || value.isEmpty ? 'Ce champ ne peut pas être vide' : null,
+                    ),
                   ),
-                ],
-              ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10.0),
+                  child: Container(
+                    width: formFieldWidth,
+                    child: TextFormField(
+                      controller: vatController,
+                      decoration: const InputDecoration(
+                        labelText: 'TVA',
+                        border: OutlineInputBorder(),
+                      ),
+                      validator: (value) => value == null || value.isEmpty ? 'Ce champ ne peut pas être vide' : null,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10.0),
+                  child: Container(
+                    width: formFieldWidth,
+                    child: TextFormField(
+                      controller: includingDiscountController,
+                      decoration: const InputDecoration(
+                        labelText: 'Remise incluse',
+                        border: OutlineInputBorder(),
+                      ),
+                      validator: (value) => value == null || value.isEmpty ? 'Ce champ ne peut pas être vide' : null,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10.0),
+                  child: Container(
+                    width: formFieldWidth,
+                    child: TextFormField(
+                      controller: totalPriceController,
+                      decoration: const InputDecoration(
+                        labelText: 'Total TTC',
+                        border: OutlineInputBorder(),
+                      ),
+                      validator: (value) => value == null || value.isEmpty ? 'Ce champ ne peut pas être vide' : null,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 40),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    SizedBox(
+                      width: 150,
+                      child: ElevatedButton(
+                        onPressed: onPrevious,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.grey,
+                        ),
+                        child: const Text('Précédent'),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 150,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (formKey.currentState!.validate()) {
+                            onNext();
+                          }
+                        },
+                        child: const Text('Suivant'),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget buildTextField(String label, TextEditingController controller) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.4,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(label, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-          const SizedBox(height: 8),
-          TextField(
-            textAlign: TextAlign.center,
-            controller: controller,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Theme.of(context).primaryColor, width: 2.0),
-                borderRadius: BorderRadius.circular(15.0),
-              ),
-            ),
-          ),
-          const SizedBox(height: 10),
-        ],
       ),
     );
   }

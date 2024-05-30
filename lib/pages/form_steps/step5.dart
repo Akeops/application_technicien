@@ -8,7 +8,7 @@ class StepSoftwareInformation extends StatefulWidget {
   final VoidCallback onPrevious;
 
   const StepSoftwareInformation({
-    super.key, 
+    super.key,
     required this.formKey,
     required this.softwareInformationController,
     required this.onNext,
@@ -66,11 +66,11 @@ class _StepSoftwareInformationState extends State<StepSoftwareInformation> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Informations logicielles"),
-        automaticallyImplyLeading: false,  // This prevents a back button from appearing
+        automaticallyImplyLeading: false,
       ),
       body: GestureDetector(
         onTap: () {
-          FocusScope.of(context).unfocus();  // Hide keyboard when tapping outside of text fields
+          FocusScope.of(context).unfocus();
         },
         child: Form(
           key: widget.formKey,
@@ -90,7 +90,7 @@ class _StepSoftwareInformationState extends State<StepSoftwareInformation> {
                       validator: (value) => value == null || value.isEmpty ? 'Ce champ ne peut pas être vide' : null,
                     ),
                     const SizedBox(height: 20),
-                    ..._choices.keys.map((String key) {
+                    if (_choices.isNotEmpty) ..._choices.keys.map((String key) {
                       return CheckboxListTile(
                         title: Text(key),
                         value: _choices[key],
@@ -98,27 +98,33 @@ class _StepSoftwareInformationState extends State<StepSoftwareInformation> {
                           _toggleChoice(key);
                         },
                       );
-                    }).toList(),
-                    const SizedBox(height: 60), // Increased space before the button row
+                    }).toList() else Center(child: CircularProgressIndicator()),
+                    const SizedBox(height: 60),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,  // Distributes space evenly around the children
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
                         SizedBox(
-                          width: 150,  // Specify the width of the button for 'Précédent'
+                          width: 150,
                           child: ElevatedButton(
                             onPressed: widget.onPrevious,
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.grey,  // Consistent with the 'Previous' button
+                              backgroundColor: Colors.grey,
                             ),
                             child: const Text('Précédent'),
                           ),
                         ),
                         SizedBox(
-                          width: 150,  // Ensure this is the same as the first button to maintain uniformity for 'Suivant'
+                          width: 150,
                           child: ElevatedButton(
                             onPressed: () {
                               if (widget.formKey.currentState!.validate()) {
-                                widget.onNext();
+                                if (_validateSelection()) {
+                                  widget.onNext();
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text('Please select at least one option.')),
+                                  );
+                                }
                               }
                             },
                             child: const Text('Suivant'),
