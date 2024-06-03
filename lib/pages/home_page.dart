@@ -37,7 +37,7 @@ class HomePage extends StatelessWidget {
               decoration: const BoxDecoration(
                 color: Colors.black,
                 image: DecorationImage(
-                  image: AssetImage('assets/Tacteo_CB.png'),
+                  image: AssetImage('assets/Tacteo_CB_converted.webp'),
                   fit: BoxFit.fitWidth,
                   alignment: Alignment(0.0, -0.6),
                 ),
