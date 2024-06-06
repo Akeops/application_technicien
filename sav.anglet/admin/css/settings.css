@@ -1,0 +1,28 @@
+#sections {
+	text-align:		center;
+	padding:		5px 0;
+	user-select:	none;
+}
+
+#sections a {
+    display:		inline-block;
+    padding:		5px;
+	cursor:			pointer;
+}
+
+#sections a img {
+    width:			20px;
+    filter:			invert(0.5);
+	transform:		scale(1) drop-shadow(0 0 0px black);
+	transition:		all .1s linear;
+}
+
+#sections a:hover img {
+    filter:			invert(0) drop-shadow(0 0 1px black);
+	transform:		scale(1.2);
+}
+
+#sections a.selected img{
+	filter:			invert(0) drop-shadow(0 0 1px black);
+	transform:		scale(1.2);
+}

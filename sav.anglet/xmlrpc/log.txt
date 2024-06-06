@@ -1,0 +1,1222 @@
+Essai RetourListeCategories : Array
+(
+    [0] => Array
+        (
+            [ID] => 11
+            [LIBELLE] => ESSAI 1
+            [PARENT_ID] => 111
+        )
+
+    [1] => Array
+        (
+            [ID] => 12
+            [LIBELLE] => ESSAI 2
+            [PARENT_ID] => 121
+        )
+
+    [2] => Array
+        (
+            [ID] => 13
+            [LIBELLE] => ESSAI 3
+            [PARENT_ID] => 131
+        )
+
+    [3] => Array
+        (
+            [ID] => 14
+            [LIBELLE] => ESSAI 4
+            [PARENT_ID] => 141
+        )
+
+    [4] => Array
+        (
+            [ID] => 15
+            [LIBELLE] => ESSAI 5
+            [PARENT_ID] => 151
+        )
+
+)
+PARAMETRES : Array
+(
+    [TYPEFILTRE] => 1
+    [DATEDEDEBUT] => 2022-09-08
+    [DATEDEFIN] => 2022-09-08
+    [NBJOURS] => 2
+)
+VALEUR RETOUR : Array
+(
+    [0] => Array
+        (
+            [ENTETE] => Array
+                (
+                    [REFERENCE1] => REFERENCE 1
+                    [REFERENCE2] => REFERENCE 2
+                    [CODE_CLIENT] => 10000001
+                    [DATE] => 01/08/2018
+                    [NUMERO] => 1
+                    [PORT_SOUMIS] => 10
+                    [PORT_TVA_CODE] => 1
+                    [PORT_TVA_TAUX] => 20.00
+                    [PORT_TVA_MONTANT] => 2.00
+                )
+
+            [CLIENT] => Array
+                (
+                    [CODE] => 10000001
+                    [NOM] => ESSAI 1
+                    [ADRESSE_FACT_LIGNE1] => 1 AVENUE DES PLATANES
+                    [ADRESSE_FACT_CP] => 13001
+                    [ADRESSE_FACT_VILLE] => MARSEILLE
+                    [ADRESSE_LIVR_LIGNE1] => 1 AVENUE DES PLATANES
+                    [ADRESSE_LIVR_CP] => 13001
+                    [ADRESSE_LIVR_VILLE] => MARSEILLE
+                    [CODE_FAMILLE] => 1
+                    [CODE_CATEGORIE] => 1
+                    [INTITULE] => MONSIEUR
+                    [TELEPHONE1] => 04.96.13.02.91
+                    [EMAIL1] => kwisatz.hotline@free.fr
+                )
+
+            [LIGNE] => Array
+                (
+                    [0] => Array
+                        (
+                            [CODE_ARTICLE] => 1
+                            [LIBELLE] => ESSAI PRODUIT 1
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                    [1] => Array
+                        (
+                            [CODE_ARTICLE] => 2
+                            [LIBELLE] => ESSAI PRODUIT 2
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                    [2] => Array
+                        (
+                            [CODE_ARTICLE] => 3
+                            [LIBELLE] => ESSAI PRODUIT 3
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                    [3] => Array
+                        (
+                            [CODE_ARTICLE] => 4
+                            [LIBELLE] => ESSAI PRODUIT 4
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                    [4] => Array
+                        (
+                            [CODE_ARTICLE] => 5
+                            [LIBELLE] => ESSAI PRODUIT 5
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                )
+
+            [REGLEMENT] => Array
+                (
+                    [0] => Array
+                        (
+                            [MODE_PAIEMENT] => 12
+                            [MONTANT] => 150.00
+                        )
+
+                )
+
+        )
+
+    [1] => Array
+        (
+            [ENTETE] => Array
+                (
+                    [REFERENCE1] => REFERENCE 1
+                    [REFERENCE2] => REFERENCE 2
+                    [CODE_CLIENT] => 10000002
+                    [DATE] => 01/08/2018
+                    [NUMERO] => 2
+                    [PORT_SOUMIS] => 10
+                    [PORT_TVA_CODE] => 1
+                    [PORT_TVA_TAUX] => 20.00
+                    [PORT_TVA_MONTANT] => 2.00
+                )
+
+            [CLIENT] => Array
+                (
+                    [CODE] => 10000002
+                    [NOM] => ESSAI 2
+                    [ADRESSE_FACT_LIGNE1] => 2 AVENUE DES PLATANES
+                    [ADRESSE_FACT_CP] => 13002
+                    [ADRESSE_FACT_VILLE] => MARSEILLE
+                    [ADRESSE_LIVR_LIGNE1] => 2 AVENUE DES PLATANES
+                    [ADRESSE_LIVR_CP] => 13002
+                    [ADRESSE_LIVR_VILLE] => MARSEILLE
+                    [CODE_FAMILLE] => 1
+                    [CODE_CATEGORIE] => 1
+                    [INTITULE] => MONSIEUR
+                    [TELEPHONE1] => 04.96.13.02.91
+                    [EMAIL1] => kwisatz.hotline@free.fr
+                )
+
+            [LIGNE] => Array
+                (
+                    [0] => Array
+                        (
+                            [CODE_ARTICLE] => 1
+                            [LIBELLE] => ESSAI PRODUIT 1
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                    [1] => Array
+                        (
+                            [CODE_ARTICLE] => 2
+                            [LIBELLE] => ESSAI PRODUIT 2
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                    [2] => Array
+                        (
+                            [CODE_ARTICLE] => 3
+                            [LIBELLE] => ESSAI PRODUIT 3
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                    [3] => Array
+                        (
+                            [CODE_ARTICLE] => 4
+                            [LIBELLE] => ESSAI PRODUIT 4
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                    [4] => Array
+                        (
+                            [CODE_ARTICLE] => 5
+                            [LIBELLE] => ESSAI PRODUIT 5
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                )
+
+            [REGLEMENT] => Array
+                (
+                    [0] => Array
+                        (
+                            [MODE_PAIEMENT] => 12
+                            [MONTANT] => 150.00
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [ENTETE] => Array
+                (
+                    [REFERENCE1] => REFERENCE 1
+                    [REFERENCE2] => REFERENCE 2
+                    [CODE_CLIENT] => 10000003
+                    [DATE] => 01/08/2018
+                    [NUMERO] => 3
+                    [PORT_SOUMIS] => 10
+                    [PORT_TVA_CODE] => 1
+                    [PORT_TVA_TAUX] => 20.00
+                    [PORT_TVA_MONTANT] => 2.00
+                )
+
+            [CLIENT] => Array
+                (
+                    [CODE] => 10000003
+                    [NOM] => ESSAI 3
+                    [ADRESSE_FACT_LIGNE1] => 3 AVENUE DES PLATANES
+                    [ADRESSE_FACT_CP] => 13003
+                    [ADRESSE_FACT_VILLE] => MARSEILLE
+                    [ADRESSE_LIVR_LIGNE1] => 3 AVENUE DES PLATANES
+                    [ADRESSE_LIVR_CP] => 13003
+                    [ADRESSE_LIVR_VILLE] => MARSEILLE
+                    [CODE_FAMILLE] => 1
+                    [CODE_CATEGORIE] => 1
+                    [INTITULE] => MONSIEUR
+                    [TELEPHONE1] => 04.96.13.02.91
+                    [EMAIL1] => kwisatz.hotline@free.fr
+                )
+
+            [LIGNE] => Array
+                (
+                    [0] => Array
+                        (
+                            [CODE_ARTICLE] => 1
+                            [LIBELLE] => ESSAI PRODUIT 1
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                    [1] => Array
+                        (
+                            [CODE_ARTICLE] => 2
+                            [LIBELLE] => ESSAI PRODUIT 2
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                    [2] => Array
+                        (
+                            [CODE_ARTICLE] => 3
+                            [LIBELLE] => ESSAI PRODUIT 3
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                    [3] => Array
+                        (
+                            [CODE_ARTICLE] => 4
+                            [LIBELLE] => ESSAI PRODUIT 4
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                    [4] => Array
+                        (
+                            [CODE_ARTICLE] => 5
+                            [LIBELLE] => ESSAI PRODUIT 5
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                )
+
+            [REGLEMENT] => Array
+                (
+                    [0] => Array
+                        (
+                            [MODE_PAIEMENT] => 12
+                            [MONTANT] => 150.00
+                        )
+
+                )
+
+        )
+
+    [3] => Array
+        (
+            [ENTETE] => Array
+                (
+                    [REFERENCE1] => REFERENCE 1
+                    [REFERENCE2] => REFERENCE 2
+                    [CODE_CLIENT] => 10000004
+                    [DATE] => 01/08/2018
+                    [NUMERO] => 4
+                    [PORT_SOUMIS] => 10
+                    [PORT_TVA_CODE] => 1
+                    [PORT_TVA_TAUX] => 20.00
+                    [PORT_TVA_MONTANT] => 2.00
+                )
+
+            [CLIENT] => Array
+                (
+                    [CODE] => 10000004
+                    [NOM] => ESSAI 4
+                    [ADRESSE_FACT_LIGNE1] => 4 AVENUE DES PLATANES
+                    [ADRESSE_FACT_CP] => 13004
+                    [ADRESSE_FACT_VILLE] => MARSEILLE
+                    [ADRESSE_LIVR_LIGNE1] => 4 AVENUE DES PLATANES
+                    [ADRESSE_LIVR_CP] => 13004
+                    [ADRESSE_LIVR_VILLE] => MARSEILLE
+                    [CODE_FAMILLE] => 1
+                    [CODE_CATEGORIE] => 1
+                    [INTITULE] => MONSIEUR
+                    [TELEPHONE1] => 04.96.13.02.91
+                    [EMAIL1] => kwisatz.hotline@free.fr
+                )
+
+            [LIGNE] => Array
+                (
+                    [0] => Array
+                        (
+                            [CODE_ARTICLE] => 1
+                            [LIBELLE] => ESSAI PRODUIT 1
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                    [1] => Array
+                        (
+                            [CODE_ARTICLE] => 2
+                            [LIBELLE] => ESSAI PRODUIT 2
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                    [2] => Array
+                        (
+                            [CODE_ARTICLE] => 3
+                            [LIBELLE] => ESSAI PRODUIT 3
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                    [3] => Array
+                        (
+                            [CODE_ARTICLE] => 4
+                            [LIBELLE] => ESSAI PRODUIT 4
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                    [4] => Array
+                        (
+                            [CODE_ARTICLE] => 5
+                            [LIBELLE] => ESSAI PRODUIT 5
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                )
+
+            [REGLEMENT] => Array
+                (
+                    [0] => Array
+                        (
+                            [MODE_PAIEMENT] => 12
+                            [MONTANT] => 150.00
+                        )
+
+                )
+
+        )
+
+    [4] => Array
+        (
+            [ENTETE] => Array
+                (
+                    [REFERENCE1] => REFERENCE 1
+                    [REFERENCE2] => REFERENCE 2
+                    [CODE_CLIENT] => 10000005
+                    [DATE] => 01/08/2018
+                    [NUMERO] => 5
+                    [PORT_SOUMIS] => 10
+                    [PORT_TVA_CODE] => 1
+                    [PORT_TVA_TAUX] => 20.00
+                    [PORT_TVA_MONTANT] => 2.00
+                )
+
+            [CLIENT] => Array
+                (
+                    [CODE] => 10000005
+                    [NOM] => ESSAI 5
+                    [ADRESSE_FACT_LIGNE1] => 5 AVENUE DES PLATANES
+                    [ADRESSE_FACT_CP] => 13005
+                    [ADRESSE_FACT_VILLE] => MARSEILLE
+                    [ADRESSE_LIVR_LIGNE1] => 5 AVENUE DES PLATANES
+                    [ADRESSE_LIVR_CP] => 13005
+                    [ADRESSE_LIVR_VILLE] => MARSEILLE
+                    [CODE_FAMILLE] => 1
+                    [CODE_CATEGORIE] => 1
+                    [INTITULE] => MONSIEUR
+                    [TELEPHONE1] => 04.96.13.02.91
+                    [EMAIL1] => kwisatz.hotline@free.fr
+                )
+
+            [LIGNE] => Array
+                (
+                    [0] => Array
+                        (
+                            [CODE_ARTICLE] => 1
+                            [LIBELLE] => ESSAI PRODUIT 1
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                    [1] => Array
+                        (
+                            [CODE_ARTICLE] => 2
+                            [LIBELLE] => ESSAI PRODUIT 2
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                    [2] => Array
+                        (
+                            [CODE_ARTICLE] => 3
+                            [LIBELLE] => ESSAI PRODUIT 3
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                    [3] => Array
+                        (
+                            [CODE_ARTICLE] => 4
+                            [LIBELLE] => ESSAI PRODUIT 4
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                    [4] => Array
+                        (
+                            [CODE_ARTICLE] => 5
+                            [LIBELLE] => ESSAI PRODUIT 5
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                )
+
+            [REGLEMENT] => Array
+                (
+                    [0] => Array
+                        (
+                            [MODE_PAIEMENT] => 12
+                            [MONTANT] => 150.00
+                        )
+
+                )
+
+        )
+
+)
+PARAMETRES : Array
+(
+    [TYPEFILTRE] => 1
+    [DATEDEDEBUT] => 2022-09-08
+    [DATEDEFIN] => 2022-09-08
+    [NBJOURS] => 2
+)
+VALEUR RETOUR : Array
+(
+    [0] => Array
+        (
+            [ENTETE] => Array
+                (
+                    [REFERENCE1] => REFERENCE 1
+                    [REFERENCE2] => REFERENCE 2
+                    [CODE_CLIENT] => 10000001
+                    [DATE] => 01/08/2018
+                    [NUMERO] => 1
+                    [PORT_SOUMIS] => 10
+                    [PORT_TVA_CODE] => 1
+                    [PORT_TVA_TAUX] => 20.00
+                    [PORT_TVA_MONTANT] => 2.00
+                )
+
+            [LIGNE] => Array
+                (
+                    [0] => Array
+                        (
+                            [CODE_ARTICLE] => 1
+                            [LIBELLE] => ESSAI PRODUIT 1
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                    [1] => Array
+                        (
+                            [CODE_ARTICLE] => 2
+                            [LIBELLE] => ESSAI PRODUIT 2
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                    [2] => Array
+                        (
+                            [CODE_ARTICLE] => 3
+                            [LIBELLE] => ESSAI PRODUIT 3
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                    [3] => Array
+                        (
+                            [CODE_ARTICLE] => 4
+                            [LIBELLE] => ESSAI PRODUIT 4
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                    [4] => Array
+                        (
+                            [CODE_ARTICLE] => 5
+                            [LIBELLE] => ESSAI PRODUIT 5
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                )
+
+            [REGLEMENT] => Array
+                (
+                    [0] => Array
+                        (
+                            [MODE_PAIEMENT] => 12
+                            [MONTANT] => 150.00
+                        )
+
+                )
+
+        )
+
+)
+PARAMETRES : Array
+(
+    [TYPEFILTRE] => 1
+    [DATEDEDEBUT] => 2022-09-08
+    [DATEDEFIN] => 2022-09-08
+    [NBJOURS] => 2
+)
+VALEUR RETOUR : Array
+(
+    [0] => Array
+        (
+            [ENTETE] => Array
+                (
+                    [REFERENCE1] => REFERENCE 1
+                    [REFERENCE2] => REFERENCE 2
+                    [DATE] => 01/08/2018
+                    [NUMERO] => 1
+                    [PORT_SOUMIS] => 10
+                    [PORT_TVA_CODE] => 1
+                    [PORT_TVA_TAUX] => 20.00
+                    [PORT_TVA_MONTANT] => 2.00
+                )
+
+            [LIGNE] => Array
+                (
+                    [0] => Array
+                        (
+                            [CODE_ARTICLE] => 1
+                            [LIBELLE] => ESSAI PRODUIT 1
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                    [1] => Array
+                        (
+                            [CODE_ARTICLE] => 2
+                            [LIBELLE] => ESSAI PRODUIT 2
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                    [2] => Array
+                        (
+                            [CODE_ARTICLE] => 3
+                            [LIBELLE] => ESSAI PRODUIT 3
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                    [3] => Array
+                        (
+                            [CODE_ARTICLE] => 4
+                            [LIBELLE] => ESSAI PRODUIT 4
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                    [4] => Array
+                        (
+                            [CODE_ARTICLE] => 5
+                            [LIBELLE] => ESSAI PRODUIT 5
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                )
+
+            [REGLEMENT] => Array
+                (
+                    [0] => Array
+                        (
+                            [MODE_PAIEMENT] => 12
+                            [MONTANT] => 150.00
+                        )
+
+                )
+
+        )
+
+)
+PARAMETRES : Array
+(
+    [TYPEFILTRE] => 1
+    [DATEDEDEBUT] => 2022-09-08
+    [DATEDEFIN] => 2022-09-08
+    [NBJOURS] => 2
+)
+VALEUR RETOUR : Array
+(
+    [0] => Array
+        (
+            [ENTETE] => Array
+                (
+                    [REFERENCE1] => REFERENCE 1
+                    [REFERENCE2] => REFERENCE 2
+                    [DATE] => 01/08/2018
+                    [NUMERO] => 1
+                    [PORT_SOUMIS] => 10
+                    [PORT_TVA_CODE] => 1
+                    [PORT_TVA_TAUX] => 20.00
+                    [PORT_TVA_MONTANT] => 2.00
+                )
+
+            [LIGNE] => Array
+                (
+                    [0] => Array
+                        (
+                            [CODE_ARTICLE] => 1
+                            [LIBELLE] => ESSAI PRODUIT 1
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                    [1] => Array
+                        (
+                            [CODE_ARTICLE] => 2
+                            [LIBELLE] => ESSAI PRODUIT 2
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                    [2] => Array
+                        (
+                            [CODE_ARTICLE] => 3
+                            [LIBELLE] => ESSAI PRODUIT 3
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                    [3] => Array
+                        (
+                            [CODE_ARTICLE] => 4
+                            [LIBELLE] => ESSAI PRODUIT 4
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                    [4] => Array
+                        (
+                            [CODE_ARTICLE] => 5
+                            [LIBELLE] => ESSAI PRODUIT 5
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                )
+
+            [REGLEMENT] => Array
+                (
+                    [0] => Array
+                        (
+                            [MODE_PAIEMENT] => 12
+                            [MONTANT] => 150.00
+                        )
+
+                )
+
+        )
+
+)
+PARAMETRES : Array
+(
+    [TYPEFILTRE] => 1
+    [DATEDEDEBUT] => 2022-09-08
+    [DATEDEFIN] => 2022-09-08
+    [NBJOURS] => 2
+)
+VALEUR RETOUR : Array
+(
+    [0] => Array
+        (
+            [ENTETE] => Array
+                (
+                    [REFERENCE1] => REFERENCE 1
+                    [REFERENCE2] => REFERENCE 2
+                    [DATE] => 01/08/2018
+                    [NUMERO] => 1
+                    [PORT_TVA_CODE] => 1
+                    [PORT_TVA_TAUX] => 20.00
+                    [PORT_TVA_MONTANT] => 2.00
+                )
+
+            [LIGNE] => Array
+                (
+                    [0] => Array
+                        (
+                            [CODE_ARTICLE] => 1
+                            [LIBELLE] => ESSAI PRODUIT 1
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                    [1] => Array
+                        (
+                            [CODE_ARTICLE] => 2
+                            [LIBELLE] => ESSAI PRODUIT 2
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                    [2] => Array
+                        (
+                            [CODE_ARTICLE] => 3
+                            [LIBELLE] => ESSAI PRODUIT 3
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                    [3] => Array
+                        (
+                            [CODE_ARTICLE] => 4
+                            [LIBELLE] => ESSAI PRODUIT 4
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                    [4] => Array
+                        (
+                            [CODE_ARTICLE] => 5
+                            [LIBELLE] => ESSAI PRODUIT 5
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                )
+
+            [REGLEMENT] => Array
+                (
+                    [0] => Array
+                        (
+                            [MODE_PAIEMENT] => 12
+                            [MONTANT] => 150.00
+                        )
+
+                )
+
+        )
+
+)
+PARAMETRES : Array
+(
+    [TYPEFILTRE] => 1
+    [DATEDEDEBUT] => 2022-09-08
+    [DATEDEFIN] => 2022-09-08
+    [NBJOURS] => 2
+)
+VALEUR RETOUR : Array
+(
+    [0] => Array
+        (
+            [ENTETE] => Array
+                (
+                    [REFERENCE1] => REFERENCE 1
+                    [REFERENCE2] => REFERENCE 2
+                    [DATE] => 01/08/2018
+                    [NUMERO] => 1
+                    [PORT_TVA_CODE] => 1
+                    [PORT_TVA_TAUX] => 20.00
+                    [PORT_TVA_MONTANT] => 2.00
+                )
+
+            [LIGNE] => Array
+                (
+                    [0] => Array
+                        (
+                            [CODE_ARTICLE] => 1
+                            [LIBELLE] => ESSAI PRODUIT 1
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                    [1] => Array
+                        (
+                            [CODE_ARTICLE] => 2
+                            [LIBELLE] => ESSAI PRODUIT 2
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                    [2] => Array
+                        (
+                            [CODE_ARTICLE] => 3
+                            [LIBELLE] => ESSAI PRODUIT 3
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                    [3] => Array
+                        (
+                            [CODE_ARTICLE] => 4
+                            [LIBELLE] => ESSAI PRODUIT 4
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                    [4] => Array
+                        (
+                            [CODE_ARTICLE] => 5
+                            [LIBELLE] => ESSAI PRODUIT 5
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                )
+
+            [REGLEMENT] => Array
+                (
+                    [0] => Array
+                        (
+                            [MODE_PAIEMENT] => 12
+                            [MONTANT] => 150.00
+                        )
+
+                )
+
+        )
+
+)
+PARAMETRES : Array
+(
+    [TYPEFILTRE] => 1
+    [DATEDEDEBUT] => 2022-09-08
+    [DATEDEFIN] => 2022-09-08
+    [NBJOURS] => 2
+)
+VALEUR RETOUR : Array
+(
+    [0] => Array
+        (
+            [ENTETE] => Array
+                (
+                    [REFERENCE1] => REFERENCE 1
+                    [REFERENCE2] => REFERENCE 2
+                    [DATE] => 01/08/2018
+                    [NUMERO] => 1
+                    [PORT_TVA_CODE] => 1
+                    [PORT_TVA_TAUX] => 20.00
+                    [PORT_TVA_MONTANT] => 2.00
+                )
+
+            [LIGNE] => Array
+                (
+                    [0] => Array
+                        (
+                            [CODE_ARTICLE] => 1
+                            [LIBELLE] => ESSAI PRODUIT 1
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                    [1] => Array
+                        (
+                            [CODE_ARTICLE] => 2
+                            [LIBELLE] => ESSAI PRODUIT 2
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                    [2] => Array
+                        (
+                            [CODE_ARTICLE] => 3
+                            [LIBELLE] => ESSAI PRODUIT 3
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                    [3] => Array
+                        (
+                            [CODE_ARTICLE] => 4
+                            [LIBELLE] => ESSAI PRODUIT 4
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                    [4] => Array
+                        (
+                            [CODE_ARTICLE] => 5
+                            [LIBELLE] => ESSAI PRODUIT 5
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                )
+
+            [REGLEMENT] => Array
+                (
+                    [0] => Array
+                        (
+                            [MODE_PAIEMENT] => 12
+                            [MONTANT] => 150.00
+                        )
+
+                )
+
+        )
+
+)
+PARAMETRES : Array
+(
+    [TYPEFILTRE] => 1
+    [DATEDEDEBUT] => 2022-09-08
+    [DATEDEFIN] => 2022-09-08
+    [NBJOURS] => 2
+)
+VALEUR RETOUR : Array
+(
+    [0] => Array
+        (
+            [ENTETE] => Array
+                (
+                    [REFERENCE1] => REFERENCE 1
+                    [REFERENCE2] => REFERENCE 2
+                    [DATE] => 01/08/2018
+                    [NUMERO] => 1
+                )
+
+            [LIGNE] => Array
+                (
+                    [0] => Array
+                        (
+                            [CODE_ARTICLE] => 1
+                            [LIBELLE] => ESSAI PRODUIT 1
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                    [1] => Array
+                        (
+                            [CODE_ARTICLE] => 2
+                            [LIBELLE] => ESSAI PRODUIT 2
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                    [2] => Array
+                        (
+                            [CODE_ARTICLE] => 3
+                            [LIBELLE] => ESSAI PRODUIT 3
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                    [3] => Array
+                        (
+                            [CODE_ARTICLE] => 4
+                            [LIBELLE] => ESSAI PRODUIT 4
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                    [4] => Array
+                        (
+                            [CODE_ARTICLE] => 5
+                            [LIBELLE] => ESSAI PRODUIT 5
+                            [QUANTITE] => 1
+                            [PUHT] => 25.08361
+                            [CODE_TVA] => 1
+                            [TAUX_TVA] => 20.00
+                            [PUTTC] => 30.00
+                        )
+
+                )
+
+            [REGLEMENT] => Array
+                (
+                    [0] => Array
+                        (
+                            [MODE_PAIEMENT] => 12
+                            [MONTANT] => 150.00
+                        )
+
+                )
+
+        )
+
+)

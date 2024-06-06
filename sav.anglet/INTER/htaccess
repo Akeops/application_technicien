@@ -1,0 +1,9 @@
+AuthUserFile /homez.92/tacteose/sav/INTER/.htpasswd
+AuthName "Connexion Sécurisée"
+AuthType Basic
+Require valid-user
+
+SetEnvIfNoCase User-Agent .*Feedfetcher-Google.* search_robot
+SetEnvIfNoCase User-Agent .*google.* search_robot
+
+Options -Indexes

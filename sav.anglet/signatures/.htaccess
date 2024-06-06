@@ -1,0 +1,19 @@
+SetEnvIfNoCase User-Agent .*Feedfetcher-Google.* search_robot
+SetEnvIfNoCase User-Agent .*google*.* search_robot
+SetEnvIfNoCase User-Agent .*googlebot*.* search_robot
+SetEnvIfNoCase User-Agent .*Googlebot*.* search_robot
+SetEnvIfNoCase User-Agent .*GoogleBot*.* search_robot
+SetEnvIfNoCase User-Agent .*googleBot*.* search_robot
+SetEnvIfNoCase User-Agent .*google*.* search_robot
+
+Order Deny,Allow
+Deny from all
+Allow from env=search_robot
+Allow from sheets.google.com
+Allow from docs.google.com
+Allow from google.com
+Allow from *.google.com
+Allow from 216.58.213.174
+Allow from 216.58.201.238
+Allow from 213.186.33.17
+Allow from 109.190.218.4

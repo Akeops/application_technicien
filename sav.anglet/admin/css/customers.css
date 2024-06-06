@@ -1,0 +1,285 @@
+#searchbar {
+    position:			relative;
+    background:			#014b4b;
+    height:				100px;
+    z-index:			1;
+    top:				-100px;
+    transition:			all ease .3s;
+    width:				100%;
+    margin-bottom:		10px;
+}
+
+#searchButton{
+	position: relative;
+    background: #014b4b;
+    margin-left: 20px;
+    height: 40px !important;
+    color: white;
+    font-weight: bold;
+    border-radius: 0 0 3px 3px;
+    cursor: pointer;
+    float: left;
+    user-select: none;
+    margin-bottom: 20px;
+}
+
+#searchbar>div {
+    height: 100%;
+}
+
+#searchbar>div>div {
+	text-align: center;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#searchbar div div div{
+    display:			inline-block;
+}
+
+#searchbar div div div span {
+    display:			block;
+    text-align:			left;
+    color:				white;
+    height:				1em;
+    margin-bottom:		5px;
+}
+
+#searchbar input, #searchbar select {
+    height:				2em;
+    margin:				0;
+    border:				none;
+    border-radius:		3px;
+	padding:			0 5px;
+}
+
+#searchButton span{
+	display:			block;
+    margin:				0 5px;
+    position:			relative;
+    top:				50%;
+    transform:			translateY(-50%);
+}
+
+#search-results {
+    position:			relative;
+    top:				-100px;
+    transition:			all ease .3s;
+    margin: 0 20px;
+    margin-bottom: 20px;
+}
+
+#inter-header{
+	display:			block;
+	position:			relative;
+	height:				40px;
+}
+
+#inter-tools{
+	display:			block;
+    width:				calc(100% - 10px);
+    height:				30px;
+    padding:			5px;
+}
+
+#inter-tools>span{
+	display:			block;
+	position:			relative;
+	color:				white;
+	top:				50%;
+	transform:			translateY(-50%);
+	float:				left;
+}
+
+#inter-tools a{
+	display:			inline-block;
+    height:				100%;
+	margin-left:		10px;
+	margin-right:		10px;
+}
+
+#inter-tools a span{
+	position:			relative;
+    display:			inline-block;
+    float:				right;
+    top:				50%;
+    transform:			translateY(-50%);
+    padding-left:		5px;
+}
+
+#inter-type a, #inter-result a{
+	text-decoration:	none;
+	color:				white;
+}
+
+#inter-type{
+	margin-right:		20px;
+	float:				right;
+	height:				100%;
+}
+
+#inter-type a{
+	display:			inline-block;
+	height:				100%;
+	background:			#012d2d;
+	font-weight:		bold;
+	color:				white;
+	transition:			all .1s linear;
+	border-radius:		3px 3px 0 0;
+}
+
+#inter-type a:hover{
+	background:			#014b4b;
+}
+
+#inter-type .select{
+	background:			#014b4b;
+}
+
+#inter-type .select span{
+	transform:			translateY(calc(-50% + -1px));
+}
+
+#inter-type a span{
+	display:			block;
+	margin:				0 5px;
+	position:			relative;
+	top:				50%;
+	transform:			translateY(-50%);
+}
+
+#inter-result{
+	background:			#014b4b;
+	border-radius: 5px;
+	box-shadow: 0 0 10px black;
+}
+
+#table-result{
+	width:				100%;
+	border-collapse:	separate;
+	border-spacing:		0px;
+	text-align:			center;
+	background:			#027575;
+	color:				white;
+	/* box-shadow:			0 0 10px 0px black; */
+}
+
+.editTools a{
+	padding:			5px;
+	display:			inline-block;
+	transition:			all .1s linear;
+}
+
+.editTools a:hover{
+	padding:			5px;
+	display:			inline-block;
+	transform:			scale(1.2);
+}
+
+.editTools img{
+	height:				20px;
+	width:				20px;
+}
+
+#table-result th{
+	background:			#014b4b;
+	position:			sticky;
+	top:				28px;
+	height:				50px;
+}
+
+#table-result tr{
+	height:				25px;
+	font-size:			1.2em;
+	transition:			all .1s linear;
+}
+
+#table-result tbody tr:nth-child(even) {
+	background:			rgba(0, 0, 0, 0.16);
+}
+
+#table-result tr:hover{
+	background:			rgba(0, 0, 0, 0.5) !important;
+}
+
+#table-result td{
+	border-right:		1px solid rgba(0, 0, 0, 0.11);
+	padding:			0 5px;
+}
+
+#table-result td:nth-child(3), #table-result td:nth-child(4), #table-result td:nth-child(5), #table-result td:nth-child(6)
+{
+	text-align:			left;
+}
+
+#table-result td:nth-child(7)
+{
+	text-align:			right;
+}
+
+#inter-footer{
+	height:				60px;
+	text-align:			center;
+}
+
+#inter-infos{
+	display:			block;
+	position:			relative;
+	width:				100%;
+	float:				left;
+	text-align:			left;
+	color:				white;
+	background:			grey;
+	box-shadow:			inset 0 0 5px black;
+}
+
+#inter-infos span{
+	display:			inline-block;
+	padding:			2px 5px;
+}
+
+#inter-paginer{
+	display:			block;
+	position:			relative;
+	top:				50%;
+	transform:			translateY(-50%);
+}
+
+#inter-paginer a{
+	display:			inline-block;
+	width:				25px;
+	height:				25px;
+	background:			rgba(0,0,0,0.3);
+	transition:			all .1s linear;
+}
+
+#inter-paginer a span{
+	display:			block;
+	position:			relative;
+	top:				50%;
+	transform:			translateY(-50%);
+}
+
+#inter-paginer .activePage{
+	font-weight:		bold;
+	background:			rgba(0,0,0,0.5);
+}
+
+#inter-paginer a:hover{
+	background:			rgba(0,0,0,0.5);
+}
+
+.sort-desc{
+    background-image:	url('../images/desc.png')	!important;
+    background-position:calc(100% - 5px) center		!important;
+    background-size:	10px						!important;
+    background-repeat:	no-repeat					!important;
+}
+
+.sort-asc{
+    background-image:	url('../images/asc.png')	!important;
+    background-position:calc(100% - 5px) center		!important;
+    background-size:	10px						!important;
+    background-repeat:	no-repeat					!important;
+}

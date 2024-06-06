@@ -1,0 +1,22 @@
+html{
+	height:			100%;
+	width:			100%;
+}
+
+#ban{
+	display:	block;
+	width:		75%;
+	margin:		0 auto;
+}
+
+#context{
+	margin:			0 auto;
+	text-align:		center;
+	font-size:		32px;
+	font-family:	ABeeZee;
+}
+
+body{
+	height:	100%;
+	margin:	0;
+}
