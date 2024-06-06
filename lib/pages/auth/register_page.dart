@@ -17,11 +17,11 @@ class _RegisterPageState extends State<RegisterPage> {
   Future<void> _register() async {
     if (_formKey.currentState!.validate()) {
       final response = await http.post(
-        Uri.parse('http://localhost/myproject/register.php'), // URL locale pour WAMP
+        Uri.parse('http://localhost/application_technicien/sav.anglet/admin/authentification/register.php'), // URL locale pour WAMP
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
-          'email': _emailController.text.trim(),
-          'password': _passwordController.text.trim(),
+          'mail': _emailController.text.trim(), // 'mail' instead of 'email'
+          'pwd': _passwordController.text.trim(), // 'pwd' instead of 'password'
           'name': _nameController.text.trim(),
         }),
       );
